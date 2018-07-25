@@ -14,7 +14,7 @@ if (isset($_SESSION['uname'])) {
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>PizzaPita</title>
+	<title>Pizza</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Free HTML5 Website Template by GetTemplates.co" />
 	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
@@ -47,7 +47,7 @@ include 'header1.php';
 
 <?php include 'navigation.php';?>
 
-	<header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner" style="background-image: url(<?php echo base_url() ?>assets/images/bg3.jpg)" data-stellar-background-ratio="0.5">
+	<header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner" style="background-image: url(<?php echo base_url() ?>assets/images/bg6.jpg)" data-stellar-background-ratio="0.5">
 		<div class="overlay"></div>
 		<div class="gtco-container">
 			<div class="row">
@@ -125,7 +125,7 @@ include 'header1.php';
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
 					<h2 class="cursive-font primary-color">Popular Dishes</h2>
-					<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
+					<p>The most popular and widely loved cuisines including Montreal's world famous dish poutine.</p>
 				</div>
 			</div>
 			<div class="row">
@@ -138,7 +138,7 @@ include 'header1.php';
 						</figure>
 						<div class="fh5co-text">
 							<h2>poutine</h2>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia..</p>
+							<p>Fresh Fried French Fries with yumm cheese curd and brown gravy on top.</p>
 							<p><span class="price cursive-font">$7.65</span></p>
 						</div>
 					</a>
@@ -151,7 +151,7 @@ include 'header1.php';
 						</figure>
 						<div class="fh5co-text">
 							<h2>Cheese and Garlic Toast</h2>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia..</p>
+							<p>Fresh bread moon with cheese, butter, garlic, parsley with Parmesan on top..</p>
 							<p><span class="price cursive-font">$6.99</span></p>
 						</div>
 					</a>
@@ -164,7 +164,7 @@ include 'header1.php';
 						</figure>
 						<div class="fh5co-text">
 							<h2>Delicious Pizza</h2>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia..</p>
+							<p>cooked in convention backing oven in a traditional way and Loved by thousands</p>
 							<p><span class="price cursive-font">$12.99</span></p>
 
 						</div>
@@ -180,7 +180,7 @@ include 'header1.php';
 						</figure>
 						<div class="fh5co-text">
 							<h2>Calzon</h2>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia..</p>
+							<p> Italian oven-baked folded pizza made from salted dough, stuffed with sause vegetables and mozzarella</p>
 							<p><span class="price cursive-font">$12.99</span></p>
 						</div>
 					</a>
@@ -194,7 +194,7 @@ include 'header1.php';
 						</figure>
 						<div class="fh5co-text">
 							<h2>Lasagna</h2>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia..</p>
+							<p>One of the oldest wide, flat pasta cooked in traditional way.</p>
 							<p><span class="price cursive-font">$13.99</span></p>
 						</div>
 					</a>
@@ -208,7 +208,7 @@ include 'header1.php';
 						</figure>
 						<div class="fh5co-text">
 							<h2>Eggplant Parmesan</h2>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia..</p>
+							<p>Sausy and cheesy fried egg-deeped eggplants with italiano sause and chese.</p>
 							<p><span class="price cursive-font">$13.99</span></p>
 						</div>
 					</a>
@@ -267,7 +267,7 @@ include 'header1.php';
 			<div class="display-t">
 				<div class="display-tc">
 					<h1>&ldquo; Their high quality of service makes me back over and over again!&rdquo;</h1>
-					<p>&mdash; John Doe, CEO of XYZ Co.</p>
+					<p>&mdash; Baapu Gathiyawala, CEO of Gandakaka na fafda.</p>
 				</div>
 			</div>
 		</div>
@@ -279,7 +279,7 @@ include 'header1.php';
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading animate-box">
 					<h2 class="cursive-font primary-color">Fun Facts</h2>
-					<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
+					<p>theres no funfacts in food............</p>
 				</div>
 			</div>
 
