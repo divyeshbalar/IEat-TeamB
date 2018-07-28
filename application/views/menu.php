@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 session_start();
-
+$product_ids = array();
 if (isset($_SESSION['uname'])) {
 	$flag = true;
 } else {
@@ -9,7 +9,76 @@ if (isset($_SESSION['uname'])) {
 	$flag = false;
 }
 
+//check if Add to Cart button has been submitted
+if (filter_input(INPUT_POST, 'add_to_cart')) {
+	if (isset($_SESSION['shopping_cart'])) {
+
+		//keep track of how mnay products are in the shopping cart
+		$count = count($_SESSION['shopping_cart']);
+		echo $count;
+		//create sequantial array for matching array keys to products id's
+		$product_ids = array_column($_SESSION['shopping_cart'], 'id');
+
+		if (!in_array(filter_input(INPUT_GET, 'id'), $product_ids)) {
+			$_SESSION['shopping_cart'][$count] = array
+				(
+				'id' => filter_input(INPUT_GET, 'id'),
+				'name' => filter_input(INPUT_POST, 'dname'),
+				'price' => filter_input(INPUT_POST, 'price'),
+				'quantity' => filter_input(INPUT_POST, 'quantity'),
+			);
+			//pre_r($_SESSION);
+		} else {
+			//product already exists, increase quantity
+			//match array key to id of the product being added to the cart
+			for ($i = 0; $i < count($product_ids); $i++) {
+				if ($product_ids[$i] == filter_input(INPUT_GET, 'id')) {
+					//add item quantity to the existing product in the array
+					$_SESSION['shopping_cart'][$i]['quantity'] += filter_input(INPUT_POST, 'quantity');
+				}
+			}
+			//pre_r($_SESSION);
+		}
+
+	} else {
+		//if shopping cart doesn't exist, create first product with array key 0
+		//create array using submitted form data, start from key 0 and fill it with values
+		$_SESSION['shopping_cart'][0] = array
+			(
+			'id' => filter_input(INPUT_GET, 'id'),
+			'name' => filter_input(INPUT_POST, 'dname'),
+			'price' => filter_input(INPUT_POST, 'price'),
+			'quantity' => filter_input(INPUT_POST, 'quantity'),
+		);
+		//pre_r($_SESSION);
+	}
+}
+
+if (filter_input(INPUT_GET, 'action') == 'delete') {
+	//loop through all products in the shopping cart until it matches with GET id variable
+	foreach ($_SESSION['shopping_cart'] as $key => $product) {
+		if ($product['id'] == filter_input(INPUT_GET, 'id')) {
+			//remove product from the shopping cart when it matches with the GET id
+			unset($_SESSION['shopping_cart'][$key]);
+			//pre_r($_SESSION);
+		}
+	}
+	//reset session array keys so they match with $product_ids numeric array
+	$_SESSION['shopping_cart'] = array_values($_SESSION['shopping_cart']);
+}
+
 ?>
+
+<!--
+// $product_ids = array();
+// foreach ($ddata as $key => $value) {
+// 	//echo $value->custid;
+// 	$did = $value->did;
+// 	$dname = $value->dname;
+// 	$price = $value->price;
+// 	echo "$did is $dname and price is $price";
+// }
+//?> -->
 <!DOCTYPE html>
 <html>
 <html>
@@ -63,263 +132,106 @@ include 'header1.php';
 <!--
 	<h3>Pizza</h3>
 	<hr class="style2"> -->
-	<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+  <?php foreach ($ddata as $key => $value) {?>
+    <form method="post" action="<?php echo base_url() . "index.php/menucontroller/?action=add&id=" . $value->did; ?>">
+  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
     <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Hamburger</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <h4><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></h4>
+          <img src="<?php echo base_url() . "assets/images/pizza/" . $value->image; ?>" class="responsive-image" alt="...">
+          <div class="caption">
+            <h3><?php echo $value->dname; ?></h3>
+            <p><?php echo $value->ddesc; ?></p>
+            <h3 class="text-info"><?php echo "$" . $value->price; ?></h3>
+            <input type="hidden" name="dname" value="<?php echo $value->dname; ?>" />
+            <input type="hidden" name="price" value="<?php echo $value->price; ?>" />
+            <input type="hidden" name="did" value="<?php echo $value->did; ?>">
+            <h4><input type="text" name="quantity" class="form-control" style="width: 16%; float: left;" value="1"><span width="100%"><input type="submit" name="add_to_cart" class="btn btn-primary addcart" style="margin-left: 10px; width: 79%;" role="button" value="Add to Cart"></span></h4>
+          </div>
       </div>
-      </div>
-  	</div>
+    </div>
+    </form>
+<?php }?>
 
-  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Polenta</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></p>
-      </div>
-    </div>
-  </div>
-  <div class="clearfix visible-xs"></div>
-  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Meatball Sub</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></p>
-      </div>
-    </div>
-  </div>
-  <div class="clearfix visible-md"></div>
-  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Eggplant</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></p>
-      </div>
-    </div>
-  </div>
-     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Parmesan</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></p>
-      </div>
-    </div>
-  </div>
-</div>
-	<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Hamburger</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <h4><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></h4>
-      </div>
-      </div>
-  </div>
-  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Polenta</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></p>
-      </div>
-    </div>
-  </div>
-  <div class="clearfix visible-xs"></div>
-  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Meatball Sub</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></p>
-      </div>
-    </div>
-  </div>
-  <div class="clearfix visible-md"></div>
-  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Eggplant</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></p>
-      </div>
-    </div>
-  </div>
-     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Parmesan</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></p>
-      </div>
-    </div>
-  </div>
 
-  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Polenta</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></p>
-      </div>
-    </div>
-  </div>
-  <div class="clearfix visible-xs"></div>
-  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Meatball Sub</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></p>
-      </div>
-    </div>
-  </div>
-  <div class="clearfix visible-md"></div>
-  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Eggplant</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></p>
-      </div>
-    </div>
-  </div>
-     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Parmesan</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></p>
-      </div>
-    </div>
-  </div>
- <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Parmesan</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></p>
-      </div>
-    </div>
-  </div>
- <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Parmesan</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></p>
-      </div>
-    </div>
-  </div>
-</div>
- <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Parmesan</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></p>
-      </div>
-    </div>
-  </div>
-</div>
- <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Parmesan</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></p>
-      </div>
-    </div>
-  </div>
-</div>
- <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Parmesan</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></p>
-      </div>
-    </div>
-  </div>
-</div>
- <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Parmesan</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></p>
-      </div>
-    </div>
-  </div>
-</div>
- <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Parmesan</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></p>
-      </div>
-    </div>
-  </div>
-</div>
- <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Parmesan</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></p>
-      </div>
-    </div>
-  </div>
-  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Parmesan</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></p>
-      </div>
-    </div>
-  </div>
-  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-      <img src="<?php echo base_url() ?>assets/images/food/burger.png" width=150px height=150px alt="...">
-      <div class="caption">
-        <h3>Parmesan</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p><a href="#" class="btn btn-primary addcart" role="button">Add to Cart</a></p>
-      </div>
-    </div>
-  </div>
-</div>
+<!-- Here we will calculate cart total and total cart detail including number of items and quantity -->
+<?php
+pre_r($_SESSION);
+function pre_r($array) {
+	if (0 == count($_SESSION['shopping_cart'])) {
+		?><div style="color: white; visibility: hidden; display: none;" id="cart" class="gtco-cover gtco-cover-sm" style="background-image: url(<?php echo base_url(); ?>assets/images/img_bg_1.jpg)"  data-stellar-background-ratio="0.5">
+  <?php } else {
+		?>
+    <div style="color: white;" id="cart" class="gtco-cover gtco-cover-sm" style="background-image: url(<?php echo base_url(); ?>assets/images/img_bg_1.jpg)"  data-stellar-background-ratio="0.5">
+  <?php }?>
+    <div class="overlay"></div>
+    <div class="gtco-container">
+      <div class="display-t">
+        <div class="display-tc">
+          <div style="clear:both"></div>
+        <br />
+        <div class="table-responsive">
+        <table class="table" style="color: #FFF;">
+            <tr><th colspan="5"><h3>Order Details</h3></th></tr>
+        <tr>
+             <th width="40%">Product Name</th>
+             <th width="10%">Quantity</th>
+             <th width="20%">Price</th>
+             <th width="15%">Total</th>
+             <th width="5%">Action</th>
+        </tr>
+        <?php
+if (!empty($_SESSION['shopping_cart'])):
 
+		$total = 0;
+
+		foreach ($_SESSION['shopping_cart'] as $key => $product):
+		?>
+		<tr><td><?php echo $product['name']; ?></td>
+		<td><?php echo $product['quantity']; ?></td>
+		<td>$ <?php echo $product['price']; ?></td>
+		<td>$ <?php echo number_format($product['quantity'] * $product['price'], 2); ?></td>
+		<td><a href="<?php echo base_url() . "index.php/menucontroller/?action=delete&id=" . $product['id']; ?>">
+			<div class="btn-danger">Remove</div></a></td></tr>
+			<?php
+	$total = $total + ($product['quantity'] * $product['price']);
+		$GST = (($total * 5) / 100);
+		$QST = (($total * 9.98) / 100);
+		$grandtotal = $total + $GST + $QST;
+	endforeach;
+	?>
+        <tr>
+          <td colspan="5"></td>
+        </tr>
+        <tr>
+             <td align="left">sub-total + GST(5.00) + QST(9.98)</td>
+             <td colspan="3" align="left">$ <?php echo number_format($total, 2) . "&nbsp;&nbsp;&nbsp; + &nbsp;&nbsp;&nbsp;$" . number_format($GST, 2) . " &nbsp;&nbsp;&nbsp; +  &nbsp;&nbsp;&nbsp;$ " . number_format($QST, 2); ?></td>
+             <td></td>
+        </tr>
+        <tr>
+          <td colspan="3" align="right">Total</td>
+          <td colspan="2" align="left"><h4 style="color: #FFF;">$ <?php echo number_format($grandtotal, 2); ?></h4></td>
+        </tr>
+        <tr>
+            <!-- Show checkout button only if the shopping cart is not empty -->
+            <td colspan="5">
+             <?php
+if (isset($_SESSION['shopping_cart'])):
+		if (count($_SESSION['shopping_cart']) > 0):
+		?> <button class="btn btn-primary addcart button" style="width: 100%;">Checkout</button></a>
+		<?php endif;endif;?>
+		    </td>
+        </tr>
+        <?php
+endif;
+	?>
+        </table>
+         </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<?php }
+
+?>
 <footer id="gtco-footer" role="contentinfo" style="background-image: url(<?php echo base_url(); ?>assets/images/img_bg_1.jpg)" data-stellar-background-ratio="0.5">
 		<div class="overlay"></div>
 		<div class="gtco-container">

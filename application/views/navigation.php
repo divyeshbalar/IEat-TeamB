@@ -39,7 +39,7 @@
 							</ul>
 						</li><?php }?>
  -->
- 							<li><a href="<?php echo base_url() ?>"><img src="<?php echo base_url() ?>assets/images/cart.png" width="30px" height="30px"></a></li>
+ 							<li><a href="<?php echo base_url() ?>index.php/menucontroller/#cart"><img src="<?php echo base_url() ?>assets/images/cart.png" width="30px" height="30px"></a></li>
 					</ul>
 				</div>
 			</div>
