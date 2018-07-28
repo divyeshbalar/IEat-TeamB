@@ -6,8 +6,8 @@ class MenuController extends CI_Controller {
 	public function index() {
 
 		$this->load->model('menudatarendering');
-		$dishdata['ddata'] = $this->menudatarendering->getDishes();
-		if ($dishdata['ddata'] == null) {
+		$menudata['ddata'] = $this->menudatarendering->getDishes();
+		if ($menudata['ddata'] == null) {
 			echo "No dishes found!";
 			//  else {
 			// 	// foreach ($dishdata['ddata'] as $key => $value) {
@@ -18,7 +18,9 @@ class MenuController extends CI_Controller {
 			// 	// 	echo "$did is $dname and price is $price";
 			// 	}
 		}
-		$this->load->view('menu', $dishdata);
+		$this->load->model('taxrender');
+		$menudata['tax'] = $this->taxrender->getTax();
+        $this->load->view('menu', $menudata);
 
 	}
 }

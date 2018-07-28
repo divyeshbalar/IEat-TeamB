@@ -2,20 +2,23 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 session_start();
 $product_ids = array();
+
 if (isset($_SESSION['uname'])) {
 	$flag = true;
 } else {
 	//unset($_SESSION['uname']);
 	$flag = false;
 }
-
+//echo "<h1>".$tax[0]->gst."</h1>";
+$_SESSION['GSTval'] = $tax[0]->gst;
+$_SESSION['QSTval'] = $tax[0]->qst;
+$_SESSION['shopping_cart'];
 //check if Add to Cart button has been submitted
 if (filter_input(INPUT_POST, 'add_to_cart')) {
 	if (isset($_SESSION['shopping_cart'])) {
 
 		//keep track of how mnay products are in the shopping cart
 		$count = count($_SESSION['shopping_cart']);
-		echo $count;
 		//create sequantial array for matching array keys to products id's
 		$product_ids = array_column($_SESSION['shopping_cart'], 'id');
 
@@ -132,7 +135,9 @@ include 'header1.php';
 <!--
 	<h3>Pizza</h3>
 	<hr class="style2"> -->
-  <?php foreach ($ddata as $key => $value) {?>
+  <?php
+
+foreach ($ddata as $key => $value) {?>
     <form method="post" action="<?php echo base_url() . "index.php/menucontroller/?action=add&id=" . $value->did; ?>">
   <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
     <div class="thumbnail">
@@ -157,7 +162,9 @@ include 'header1.php';
 pre_r($_SESSION);
 function pre_r($array) {
 	if (0 == count($_SESSION['shopping_cart'])) {
-		?><div style="color: white; visibility: hidden; display: none;" id="cart" class="gtco-cover gtco-cover-sm" style="background-image: url(<?php echo base_url(); ?>assets/images/img_bg_1.jpg)"  data-stellar-background-ratio="0.5">
+		?>
+    <script>alert("Add some items into the cart..");</script>
+    <div style="color: white; visibility: hidden; display: none;" id="cart" class="gtco-cover gtco-cover-sm" style="background-image: url(<?php echo base_url(); ?>assets/images/img_bg_1.jpg)"  data-stellar-background-ratio="0.5">
   <?php } else {
 		?>
     <div style="color: white;" id="cart" class="gtco-cover gtco-cover-sm" style="background-image: url(<?php echo base_url(); ?>assets/images/img_bg_1.jpg)"  data-stellar-background-ratio="0.5">
@@ -179,30 +186,41 @@ function pre_r($array) {
              <th width="5%">Action</th>
         </tr>
         <?php
-if (!empty($_SESSION['shopping_cart'])):
+
+	if (!empty($_SESSION['shopping_cart'])):
 
 		$total = 0;
-
-		foreach ($_SESSION['shopping_cart'] as $key => $product):
+		foreach ($_SESSION['shopping_cart'] as $key => $product){
 		?>
-		<tr><td><?php echo $product['name']; ?></td>
-		<td><?php echo $product['quantity']; ?></td>
-		<td>$ <?php echo $product['price']; ?></td>
-		<td>$ <?php echo number_format($product['quantity'] * $product['price'], 2); ?></td>
-		<td><a href="<?php echo base_url() . "index.php/menucontroller/?action=delete&id=" . $product['id']; ?>">
-			<div class="btn-danger">Remove</div></a></td></tr>
-			<?php
-	$total = $total + ($product['quantity'] * $product['price']);
-		$GST = (($total * 5) / 100);
-		$QST = (($total * 9.98) / 100);
+            <tr><td>
+                    <?php echo $product['name']; ?>
+                </td>
+                <td>
+                    <?php echo $product['quantity']; ?>
+                </td>
+                <td>
+                    $ <?php echo $product['price']; ?>
+                </td>
+	            <td>
+                    $ <?php echo number_format($product['quantity'] * $product['price'], 2); ?>
+                </td>
+                <td>
+                    <a href="<?php echo base_url() . "index.php/menucontroller/?action=delete&id=" . $product['id']; ?>"><div class="btn-danger">Remove</div></a>
+                </td>
+            </tr>
+    <?php
+        $total = $total + ($product['quantity'] * $product['price']);
+        $GST = (($total * $_SESSION['GSTval']) / 100);
+        $QST = (($total * $_SESSION['QSTval']) / 100);
 		$grandtotal = $total + $GST + $QST;
-	endforeach;
+}
 	?>
         <tr>
           <td colspan="5"></td>
         </tr>
         <tr>
-             <td align="left">sub-total + GST(5.00) + QST(9.98)</td>
+
+             <td align="left">sub-total + GST(<?php echo $_SESSION['GSTval']; ?>) + QST(<?php echo $_SESSION['QSTval']; ?>)</td>
              <td colspan="3" align="left">$ <?php echo number_format($total, 2) . "&nbsp;&nbsp;&nbsp; + &nbsp;&nbsp;&nbsp;$" . number_format($GST, 2) . " &nbsp;&nbsp;&nbsp; +  &nbsp;&nbsp;&nbsp;$ " . number_format($QST, 2); ?></td>
              <td></td>
         </tr>
@@ -216,8 +234,11 @@ if (!empty($_SESSION['shopping_cart'])):
              <?php
 if (isset($_SESSION['shopping_cart'])):
 		if (count($_SESSION['shopping_cart']) > 0):
-		?> <button class="btn btn-primary addcart button" style="width: 100%;">Checkout</button></a>
-		<?php endif;endif;?>
+		?> 
+                <form method="get" action="<?php echo base_url() . "index.php/menucontroller/?action=checkout&data=nothin"; ?>">
+                    <input type="submit" class="btn btn-primary addcart button" value="Checkout" style="width: 100%;">
+                </form>
+<?php endif;endif;?>
 		    </td>
         </tr>
         <?php
