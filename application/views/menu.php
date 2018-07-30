@@ -8,12 +8,29 @@ if (isset($_SESSION['uname'])) {
 } else {
 	//unset($_SESSION['uname']);
 	$flag = false;
+    //$_SESSION['uname'] = "GuestUser";
 }
 //echo "<h1>".$tax[0]->gst."</h1>";
 $_SESSION['GSTval'] = $tax[0]->gst;
 $_SESSION['QSTval'] = $tax[0]->qst;
-$_SESSION['shopping_cart'];
+
+
+#this will be call on click on checkout and will check if the user is logged in or not
+if (filter_input(INPUT_GET, 'action') == 'checkout') {
+    if($flag == false)
+    {
+        redirect(base_url());
+    }
+    else if($flag == true) #if user is logged in he/she will be transfer to checkout page
+    {
+        redirect(base_url()."index.php/checkoutcontroller/?action=checkout");
+    }
+}
+
+
+//$_SESSION['shopping_cart'] = null;
 //check if Add to Cart button has been submitted
+
 if (filter_input(INPUT_POST, 'add_to_cart')) {
 	if (isset($_SESSION['shopping_cart'])) {
 
@@ -72,16 +89,6 @@ if (filter_input(INPUT_GET, 'action') == 'delete') {
 
 ?>
 
-<!--
-// $product_ids = array();
-// foreach ($ddata as $key => $value) {
-// 	//echo $value->custid;
-// 	$did = $value->did;
-// 	$dname = $value->dname;
-// 	$price = $value->price;
-// 	echo "$did is $dname and price is $price";
-// }
-//?> -->
 <!DOCTYPE html>
 <html>
 <html>
@@ -125,74 +132,74 @@ include 'header1.php';
 
 
 
-<div class="gtco-loader"></div>
+        <div class="gtco-loader"></div>
 
-<div id="page">
+        <div id="page">
 
-	<?php include 'navigation.php'?>
+            <?php include 'navigation.php'?>
 
-<div style="margin-top:95px;">
-<!--
-	<h3>Pizza</h3>
-	<hr class="style2"> -->
-  <?php
-
-foreach ($ddata as $key => $value) {?>
-    <form method="post" action="<?php echo base_url() . "index.php/menucontroller/?action=add&id=" . $value->did; ?>">
-  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-    <div class="thumbnail">
-          <img src="<?php echo base_url() . "assets/images/pizza/" . $value->image; ?>" class="responsive-image" alt="...">
-          <div class="caption">
-            <h3><?php echo $value->dname; ?></h3>
-            <p><?php echo $value->ddesc; ?></p>
-            <h3 class="text-info"><?php echo "$" . $value->price; ?></h3>
-            <input type="hidden" name="dname" value="<?php echo $value->dname; ?>" />
-            <input type="hidden" name="price" value="<?php echo $value->price; ?>" />
-            <input type="hidden" name="did" value="<?php echo $value->did; ?>">
-            <h4><input type="text" name="quantity" class="form-control" style="width: 16%; float: left;" value="1"><span width="100%"><input type="submit" name="add_to_cart" class="btn btn-primary addcart" style="margin-left: 10px; width: 79%;" role="button" value="Add to Cart"></span></h4>
-          </div>
-      </div>
-    </div>
-    </form>
-<?php }?>
+        <div style="margin-top:95px;">
+    
+        <?php
+        //Menu item card
+    
+        foreach ($ddata as $key => $value) {?>
+            <form method="post" action="<?php echo base_url() . "index.php/menucontroller/?action=add&id=" . $value->did; ?>">
+                
+          <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <div class="thumbnail">
+                  <img src="<?php echo base_url() . "assets/images/pizzadb/" . $value->image; ?>" class="responsive-image" alt="...">
+                  <div class="caption">
+                    <h3><?php echo $value->dname; ?></h3>
+                    <p><?php echo $value->ddesc; ?></p>
+                    <h3 class="text-info"><?php echo "$" . $value->price; ?></h3>
+                    <input type="hidden" name="dname" value="<?php echo $value->dname; ?>" />
+                    <input type="hidden" name="price" value="<?php echo $value->price; ?>" />
+                    <input type="hidden" name="did" value="<?php echo $value->did; ?>">
+                    <h4><input type="text" name="quantity" class="form-control" style="width: 16%; float: left;" value="1"><span width="100%"><input type="submit" name="add_to_cart" class="btn btn-primary addcart" style="margin-left: 10px; width: 79%;" role="button" value="Add to Cart"></span></h4>
+                  </div>
+              </div>
+            </div>
+            </form>
+        <?php }?>
 
 
 <!-- Here we will calculate cart total and total cart detail including number of items and quantity -->
-<?php
-pre_r($_SESSION);
-function pre_r($array) {
-	if (0 == count($_SESSION['shopping_cart'])) {
-		?>
-    <script>alert("Add some items into the cart..");</script>
-    <div style="color: white; visibility: hidden; display: none;" id="cart" class="gtco-cover gtco-cover-sm" style="background-image: url(<?php echo base_url(); ?>assets/images/img_bg_1.jpg)"  data-stellar-background-ratio="0.5">
-  <?php } else {
-		?>
-    <div style="color: white;" id="cart" class="gtco-cover gtco-cover-sm" style="background-image: url(<?php echo base_url(); ?>assets/images/img_bg_1.jpg)"  data-stellar-background-ratio="0.5">
-  <?php }?>
-    <div class="overlay"></div>
-    <div class="gtco-container">
-      <div class="display-t">
-        <div class="display-tc">
-          <div style="clear:both"></div>
-        <br />
-        <div class="table-responsive">
-        <table class="table" style="color: #FFF;">
-            <tr><th colspan="5"><h3>Order Details</h3></th></tr>
-        <tr>
-             <th width="40%">Product Name</th>
-             <th width="10%">Quantity</th>
-             <th width="20%">Price</th>
-             <th width="15%">Total</th>
-             <th width="5%">Action</th>
-        </tr>
         <?php
+        pre_r($_SESSION);
+        function pre_r($array) {
+            if (empty($_SESSION['shopping_cart'])) {
+                //if cart is empty then item table should not be visible
+        ?>
+            <div style="color: white; visibility: hidden; display: none;" id="cart" class="gtco-cover gtco-cover-sm" style="background-image: url(<?php echo base_url(); ?>assets/images/img_bg_1.jpg)"  data-stellar-background-ratio="0.5">
+        
+        <?php } else { ?>
+            <div style="color: white;" id="cart" class="gtco-cover gtco-cover-sm" style="background-image: url(<?php echo base_url(); ?>assets/images/img_bg_1.jpg)"  data-stellar-background-ratio="0.5">
+        <?php }?>
+            <div class="overlay"></div>
+            <div class="gtco-container">
+              <div class="display-t">
+                <div class="display-tc">
+                  <div style="clear:both"></div>
+                <br />
+                <div class="table-responsive">
+                <table class="table" style="color: #FFF;">
+                    <tr><th colspan="5"><h3>Order Details</h3></th></tr>
+                <tr>
+                     <th width="40%">Product Name</th>
+                     <th width="10%">Quantity</th>
+                     <th width="20%">Price</th>
+                     <th width="15%">Total</th>
+                     <th width="5%">Action</th>
+                </tr>
+        <?php
+            
+	       if (!empty($_SESSION['shopping_cart'])){
 
-	if (!empty($_SESSION['shopping_cart'])):
-
-		$total = 0;
-		foreach ($_SESSION['shopping_cart'] as $key => $product){
-		?>
-            <tr><td>
+                $total = 0;
+                foreach ($_SESSION['shopping_cart'] as $key => $product){
+        ?>
+                <tr><td>
                     <?php echo $product['name']; ?>
                 </td>
                 <td>
@@ -208,59 +215,58 @@ function pre_r($array) {
                     <a href="<?php echo base_url() . "index.php/menucontroller/?action=delete&id=" . $product['id']; ?>"><div class="btn-danger">Remove</div></a>
                 </td>
             </tr>
-    <?php
-        $total = $total + ($product['quantity'] * $product['price']);
-        $GST = (($total * $_SESSION['GSTval']) / 100);
-        $QST = (($total * $_SESSION['QSTval']) / 100);
-		$grandtotal = $total + $GST + $QST;
-}
-	?>
-        <tr>
-          <td colspan="5"></td>
-        </tr>
-        <tr>
+        <?php
+            $total = $total + ($product['quantity'] * $product['price']);
+            $GST = (($total * $_SESSION['GSTval']) / 100);
+            $QST = (($total * $_SESSION['QSTval']) / 100);
+            $grandtotal = $total + $GST + $QST;
+                }
+	   ?>
+            <tr>
+              <td colspan="5"></td>
+            </tr>
+            <tr>
 
-             <td align="left">sub-total + GST(<?php echo $_SESSION['GSTval']; ?>) + QST(<?php echo $_SESSION['QSTval']; ?>)</td>
-             <td colspan="3" align="left">$ <?php echo number_format($total, 2) . "&nbsp;&nbsp;&nbsp; + &nbsp;&nbsp;&nbsp;$" . number_format($GST, 2) . " &nbsp;&nbsp;&nbsp; +  &nbsp;&nbsp;&nbsp;$ " . number_format($QST, 2); ?></td>
-             <td></td>
+            <td align="left">
+                sub-total + GST(<?php echo $_SESSION['GSTval']; ?>) + QST(<?php echo $_SESSION['QSTval']; ?>)
+            </td>
+            <td colspan="3" align="left">
+                $ <?php echo number_format($total, 2) . "&nbsp;&nbsp;&nbsp; + &nbsp;&nbsp;&nbsp;$" . number_format($GST, 2) . " &nbsp;&nbsp;&nbsp; +  &nbsp;&nbsp;&nbsp;$ " . number_format($QST, 2); ?>
+            </td>
+            <td></td>
         </tr>
         <tr>
-          <td colspan="3" align="right">Total</td>
-          <td colspan="2" align="left"><h4 style="color: #FFF;">$ <?php echo number_format($grandtotal, 2); ?></h4></td>
+            <td colspan="3" align="right">Total</td>
+            <td colspan="2" align="left">
+                <h4 style="color: #FFF;">$ <?php echo number_format($grandtotal, 2); ?></h4>
+            </td>
         </tr>
         <tr>
             <!-- Show checkout button only if the shopping cart is not empty -->
             <td colspan="5">
              <?php
-if (isset($_SESSION['shopping_cart'])):
-		if (count($_SESSION['shopping_cart']) > 0):
-		?> 
-                <form method="get" action="<?php echo base_url() . "index.php/menucontroller/?action=checkout&data=nothin"; ?>">
-                    <input type="submit" class="btn btn-primary addcart button" value="Checkout" style="width: 100%;">
+                if (isset($_SESSION['shopping_cart'])){
+                        if (count($_SESSION['shopping_cart']) > 0){
+            ?> 
+                    <form method="get" action="<?php echo base_url()."index.php/menucontroller" ?>">
+                    
+                    <input type="submit" name="action" class="btn btn-primary addcart button" value="checkout" style="width: 100%;">
                 </form>
-<?php endif;endif;?>
+                <?php } } }?>
 		    </td>
         </tr>
-        <?php
-endif;
-	?>
+        <?php } ?>
         </table>
          </div>
         </div>
       </div>
     </div>
   </div>
-<?php }
-
-?>
-<footer id="gtco-footer" role="contentinfo" style="background-image: url(<?php echo base_url(); ?>assets/images/img_bg_1.jpg)" data-stellar-background-ratio="0.5">
-		<div class="overlay"></div>
-		<div class="gtco-container">
-			<div class="row row-pb-md">
-
-
-
-
+<?php  ?>
+            <footer id="gtco-footer" role="contentinfo" style="background-image: url(<?php echo base_url(); ?>assets/images/img_bg_1.jpg)" data-stellar-background-ratio="0.5">
+            <div class="overlay"></div>
+            <div class="gtco-container">
+                <div class="row row-pb-md">
 				<div class="col-md-12 text-center">
 					<div class="gtco-widget">
 						<h3 id="getInTouch">Get In Touch</h3>
@@ -305,3 +311,6 @@ include 'footer1.php';
 ?>
 </body>
 </html>
+        
+        
+<!--        <div class="clearfix visible-lg"></div>-->

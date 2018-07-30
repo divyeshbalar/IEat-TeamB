@@ -39,7 +39,7 @@
 							</ul>
 						</li><?php }?>
  -->
- 							<li><a href="<?php echo base_url() ?>index.php/menucontroller/#cart"><span style="border:2px;border-color:#000;!important"><img src="<?php echo base_url() ?>assets/images/cart.png" width="40px" height="40px"></span></a></li>
+ 							<li><a href="<?php echo base_url() ?>index.php/menucontroller/#cart"><span style="border:2px;border-color:#000;!important"><img src="<?php echo base_url() ?>assets/images/cart.png" width="40px" height="40px"></span></a></button></li>
 					</ul>
 				</div>
 			</div>
