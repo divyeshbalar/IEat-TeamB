@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 29, 2018 at 12:57 AM
+-- Generation Time: Jul 31, 2018 at 12:09 AM
 -- Server version: 5.7.22-log
 -- PHP Version: 7.2.7
 
@@ -21,8 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `ieat`
 --
-CREATE DATABASE IF NOT EXISTS `ieat` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `ieat`;
 
 -- --------------------------------------------------------
 
@@ -68,12 +66,16 @@ CREATE TABLE `pizzas` (
 --
 
 INSERT INTO `pizzas` (`did`, `dname`, `ddesc`, `price`, `image`) VALUES
-('P001', 'Greek Pizza', 'It includes Feta Cheese, Fresh Tomato, red onions and black olives and also includes Love from us', 21.95, 'greek.jpg'),
+('P001', 'Cheese Pizza', 'Margerita style plain cheese pizza with italiano sause on base', 21.95, 'plain.jpg\r\n'),
 ('P002', 'Mexican Pizza', 'In has sizzling hot peppers with greek hebs and a pinch of merijuana  ', 32.56, 'mexican.jpg'),
 ('P003', 'All Dressed Pizza', 'All dressed with Green olives, green peppers, Mozzarella cheese, Mushrooms, red onions and tomato', 23.44, 'alldressed.jpg'),
-('P004', 'Cheese Pizza', 'Margerita style plain cheese pizza with italiano sause on base', 21.95, 'plain.jpg\r\n'),
+('P004', 'Greek Pizza', 'It includes Feta Cheese, Fresh Tomato, red onions and black olives and also includes Love from us', 21.95, 'greek.jpg'),
 ('P005', 'Mushroom Pizza', 'Fresh mushroom with Cheesy texture on top of italiano base.', 24.99, 'mushroom.jpg\r\n'),
-('P006', 'Green Olive Pizza', 'Full of green olives direct from Italy, with mozzarella cheese. ', 24.99, 'olive.jpg');
+('P006', 'Green Olive Pizza', 'Full of green olives direct from Italy, with mozzarella cheese. ', 24.99, 'olive-1.jpg'),
+('P007', 'Pepperoni Pizza', 'Fresh salami with tasty sause base full of cheese.', 21.65, 'pepperoni.jpg'),
+('P008', 'Hawaiian Pizza', 'Native Canadian topped with tomato sauce, cheese, pineapple, and bacon or ham.', 30.05, 'hawaiian.jpg'),
+('P009', 'Sicilian pizza', 'Full of veggies and cheese; direct from Sicily, Italy.', 26.95, 'sissilian.jpg'),
+('P010', 'Student Special', 'Green papper, onion and mushroom which i had tonight', 10, 'thinkcrust.jpg');
 
 -- --------------------------------------------------------
 
@@ -85,13 +87,6 @@ CREATE TABLE `product` (
   `pid` int(4) NOT NULL,
   `did` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `product`
---
-
-INSERT INTO `product` (`pid`, `did`) VALUES
-(1, 'P001');
 
 -- --------------------------------------------------------
 

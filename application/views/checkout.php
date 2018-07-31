@@ -32,11 +32,19 @@ if (isset($_SESSION['uname'])) {
 	<meta name="twitter:card" content="" />
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
-        
+
 <?php
 include 'header1.php';
 ?>
-        
+<style type="text/css">
+	.text-black{
+		color:black;!important
+	}
+	.text-size-md{
+		font-size: 24px;
+	}
+</style>
+
 	</head>
 	<body>
 
@@ -50,17 +58,24 @@ include 'header1.php';
 	<header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner" style="background-image: url(<?php echo base_url() ?>assets/images/bg6.jpg)" data-stellar-background-ratio="0.5">
 		<div class="overlay"></div>
 		<div class="gtco-container">
-			<div class="row col-12 offset-0" style="background-color:white; margin-top:100px;">
-                <form >                    
-                    <center>
-                        <div style="width:100%; float:center; position:absolute;" align="center" class="btn-group btn-group-toggle col-lg-10 col-md-10 col-sm-12" data-toggle="buttons">
-                        <label class="form-input" for="delivery">Delivery</label>
-                        <input type="radio" id="delivery" name="type" value="delivery">    
-                        | <input type="radio" id="pickup" checked name="type" value="pickup">    
-                        <label for="pickup">Pickup</label>
-                        </div>
-                    </center>
-                </form>
+			<div class="row" style="background-color:transparent; margin-top:100px;">
+
+                <div style="float:center; position: relative; background-color: white;" align="center" class="col-lg-8 col-md-8 col-sm-10 offset-lg-2 offset-md-2 offset-sm-1">
+                	<form>
+                    	<center>
+							<input type="date" name="rdate">
+							<input type="time" name="rtime">
+							<br>
+						<label class="text-black text-size-md" for="delivery">Delivery</label>
+                        <input type="radio" id="delivery" name="type" value="delivery">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" id="pickup" checked name="type" value="pickup">
+                        <label class="text-black text-size-md" for="pickup">Pickup</label>
+						<br>
+						<input type="submit" name="isOpen" class="button" value="check availability">
+
+                    	</center>
+                	</form>
+				</div>
             </div>
         </div>
 	</header>

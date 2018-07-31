@@ -8,25 +8,21 @@ if (isset($_SESSION['uname'])) {
 } else {
 	//unset($_SESSION['uname']);
 	$flag = false;
-    //$_SESSION['uname'] = "GuestUser";
+	//$_SESSION['uname'] = "GuestUser";
 }
 //echo "<h1>".$tax[0]->gst."</h1>";
 $_SESSION['GSTval'] = $tax[0]->gst;
 $_SESSION['QSTval'] = $tax[0]->qst;
 
-
 #this will be call on click on checkout and will check if the user is logged in or not
 if (filter_input(INPUT_GET, 'action') == 'checkout') {
-    if($flag == false)
-    {
-        redirect(base_url());
-    }
-    else if($flag == true) #if user is logged in he/she will be transfer to checkout page
-    {
-        redirect(base_url()."index.php/checkoutcontroller/?action=checkout");
-    }
+	if ($flag == false) {
+		redirect(base_url());
+	} else if ($flag == true) #if user is logged in he/she will be transfer to checkout page
+	{
+		redirect(base_url() . "index.php/checkoutcontroller/?action=checkout");
+	}
 }
-
 
 //$_SESSION['shopping_cart'] = null;
 //check if Add to Cart button has been submitted
@@ -117,12 +113,29 @@ include 'header1.php';
 ?>
 
 <style type="text/css">
+    input:focus{
+        background-color: transparent;!important
+    }
+    input:active{
+        background-color: transparent;!important
+    }
 	hr.style2 {
 	border-top: 3px double #8c8b8b;
 	width: 90%;
 	float: left;
-}
-
+    }
+    .text-black{
+        color:black;!important
+    }
+    .text-size-md{
+        font-size: 24px;
+    }
+    .a1:focus{
+        color: black;
+    }
+    .a1{
+        color:white;
+    }
 
 </style>
 	</head>
@@ -139,13 +152,13 @@ include 'header1.php';
             <?php include 'navigation.php'?>
 
         <div style="margin-top:95px;">
-    
+
         <?php
-        //Menu item card
-    
-        foreach ($ddata as $key => $value) {?>
+//Menu item card
+
+foreach ($ddata as $key => $value) {?>
             <form method="post" action="<?php echo base_url() . "index.php/menucontroller/?action=add&id=" . $value->did; ?>">
-                
+
           <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
             <div class="thumbnail">
                   <img src="<?php echo base_url() . "assets/images/pizzadb/" . $value->image; ?>" class="responsive-image" alt="...">
@@ -166,14 +179,14 @@ include 'header1.php';
 
 <!-- Here we will calculate cart total and total cart detail including number of items and quantity -->
         <?php
-        pre_r($_SESSION);
-        function pre_r($array) {
-            if (empty($_SESSION['shopping_cart'])) {
-                //if cart is empty then item table should not be visible
-        ?>
+pre_r($_SESSION);
+function pre_r($array) {
+	if (empty($_SESSION['shopping_cart'])) {
+		//if cart is empty then item table should not be visible
+		?>
             <div style="color: white; visibility: hidden; display: none;" id="cart" class="gtco-cover gtco-cover-sm" style="background-image: url(<?php echo base_url(); ?>assets/images/img_bg_1.jpg)"  data-stellar-background-ratio="0.5">
-        
-        <?php } else { ?>
+
+        <?php } else {?>
             <div style="color: white;" id="cart" class="gtco-cover gtco-cover-sm" style="background-image: url(<?php echo base_url(); ?>assets/images/img_bg_1.jpg)"  data-stellar-background-ratio="0.5">
         <?php }?>
             <div class="overlay"></div>
@@ -193,12 +206,12 @@ include 'header1.php';
                      <th width="5%">Action</th>
                 </tr>
         <?php
-            
-	       if (!empty($_SESSION['shopping_cart'])){
 
-                $total = 0;
-                foreach ($_SESSION['shopping_cart'] as $key => $product){
-        ?>
+	if (!empty($_SESSION['shopping_cart'])) {
+
+		$total = 0;
+		foreach ($_SESSION['shopping_cart'] as $key => $product) {
+			?>
                 <tr><td>
                     <?php echo $product['name']; ?>
                 </td>
@@ -216,12 +229,12 @@ include 'header1.php';
                 </td>
             </tr>
         <?php
-            $total = $total + ($product['quantity'] * $product['price']);
-            $GST = (($total * $_SESSION['GSTval']) / 100);
-            $QST = (($total * $_SESSION['QSTval']) / 100);
-            $grandtotal = $total + $GST + $QST;
-                }
-	   ?>
+$total = $total + ($product['quantity'] * $product['price']);
+			$GST = (($total * $_SESSION['GSTval']) / 100);
+			$QST = (($total * $_SESSION['QSTval']) / 100);
+			$grandtotal = $total + $GST + $QST;
+		}
+		?>
             <tr>
               <td colspan="5"></td>
             </tr>
@@ -245,24 +258,42 @@ include 'header1.php';
             <!-- Show checkout button only if the shopping cart is not empty -->
             <td colspan="5">
              <?php
-                if (isset($_SESSION['shopping_cart'])){
-                        if (count($_SESSION['shopping_cart']) > 0){
-            ?> 
-                    <form method="get" action="<?php echo base_url()."index.php/menucontroller" ?>">
-                    
+if (isset($_SESSION['shopping_cart'])) {
+			if (count($_SESSION['shopping_cart']) > 0) {
+				?>
+                    <form method="get" action="<?php echo base_url() . "index.php/menucontroller" ?>">
+                    <center>
+                        <label class="text-size-md" for="delivery">Delivery</label>
+                        <input type="radio" id="delivery" name="type" value="delivery">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" id="pickup" checked name="type" value="pickup">
+                        <label class="text-size-md" for="pickup">Pickup</label><br>
+                        <div class='offset-lg-4 col-sm-12 col-md-5 col-lg-4'>
+                            <div class="form-group">
+                                <div class='input-group date' id='datetimepicker1'>
+                                    <input type='text' style="border-color:rgb(250, 250, 250, 0.5);" class="form-control a1" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        </center>
+                        <br>
+                        <!-- <input type="submit" name="isOpen" class="btn btn-primary addcart button" value="check availability"> -->
                     <input type="submit" name="action" class="btn btn-primary addcart button" value="checkout" style="width: 100%;">
-                </form>
-                <?php } } }?>
+
+                    </form>
+                <?php }}}?>
 		    </td>
         </tr>
-        <?php } ?>
+        <?php }?>
         </table>
          </div>
         </div>
       </div>
     </div>
   </div>
-<?php  ?>
+<?php ?>
             <footer id="gtco-footer" role="contentinfo" style="background-image: url(<?php echo base_url(); ?>assets/images/img_bg_1.jpg)" data-stellar-background-ratio="0.5">
             <div class="overlay"></div>
             <div class="gtco-container">
@@ -309,8 +340,13 @@ include 'header1.php';
 <?php
 include 'footer1.php';
 ?>
+<script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+        </script>
 </body>
 </html>
-        
-        
+
+
 <!--        <div class="clearfix visible-lg"></div>-->

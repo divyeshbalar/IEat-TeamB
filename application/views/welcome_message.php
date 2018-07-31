@@ -71,10 +71,10 @@ include 'header1.php';
 												<div class="row form-group">
 													<div class="col-md-12">
 														<label for="activities">Username</label>
-														<input type="text" id="uname" name="uname" class="form-control">
+														<input type="text" id="uname" name="uname" class="form-control" style="focus:color:black;focus:background-color:transparent;">
 															<br>
 														<label for="activities">Password</label>
-														<input type="password" name="pass" id="pass" class="form-control">
+														<input type="password" style="focus:background-color:transparent;focus:color:black;" name="pass" id="pass" class="form-control">
 														<!-- <select name="#" id="activities" class="form-control">
 															<option value="">Persons</option>
 															<option value="">1</option>
