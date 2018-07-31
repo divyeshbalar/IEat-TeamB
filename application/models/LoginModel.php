@@ -13,6 +13,11 @@ class LoginModel extends CI_Model {
 
 		return $query->result();
 	}
+	public function adminverification($uname = '', $pass = ''){
+		$this->load->database();
+		$query = $this->db->get_where('cust',array('custid'=>$uname,'passwd' => $pass));
+		return $query->result();
+	}
 }
 
 /* End of file LoginModel.php */
