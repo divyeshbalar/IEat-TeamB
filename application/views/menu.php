@@ -13,6 +13,7 @@ if (isset($_SESSION['uname'])) {
 
 if (isset($_SESSION['errormsg'])) {
 	echo '<script>alert("' . $_SESSION['errormsg'] . '")</script>';
+//	$_SESSION['errormsg'] = null;
 	unset($_SESSION['errormsg']);
 }
 //echo "<h1>".$tax[0]->gst."</h1>";
@@ -21,7 +22,20 @@ $_SESSION['QSTval'] = $taxdata[0]->qst;
 $_SESSION['dtime'] = null;
 $_SESSION['ddate'] = null;
 
-if (isset($_GET['type'])) {$_SESSION['type'] = $_GET['type'];}
+#For constraint on minimum delivery amount
+if (isset($_GET['type'])) {
+	if ($_GET['type'] == "delivery") {
+		if ((int) $_SESSION['grandtotal'] < 25) {
+			$_SESSION['errormsg'] = "Minimum amount for delivery is $25";
+			redirect(base_url() . "index.php/menucontroller");
+		} else {
+			$_SESSION['type'] = $_GET['type'];
+		}
+
+	} else {
+		$_SESSION['type'] = $_GET['type'];
+	}
+}
 #this will be call on click on checkout and will check if the user is logged in or not
 if (filter_input(INPUT_GET, 'action') == 'checkout') {
 	if ($flag == false) {
@@ -33,7 +47,7 @@ if (filter_input(INPUT_GET, 'action') == 'checkout') {
 		if (filter_input(INPUT_GET, 'ddate')) {
 			$temp = filter_input(INPUT_GET, 'ddate');
 			$ddate = substr($temp, 0, 10);
-			$dtime = substr($temp, 11, 15);
+			$dtime = substr($temp, 11, 18);
 			if ($dtime[5] == 'P') {
 				$tempo = ((int) ($dtime[0] . $dtime[1]));
 				$tempo = (int) ($tempo + 12);
@@ -46,6 +60,7 @@ if (filter_input(INPUT_GET, 'action') == 'checkout') {
 			}
 			$_SESSION['ddate'] = $ddate;
 			$_SESSION['dtime'] = $tempo;
+			$_SESSION['dtimedis'] = $dtime;
 			redirect(base_url() . "index.php/checkoutcontroller/?action=checkout");
 		}
 
@@ -187,7 +202,7 @@ include 'header1.php';
 foreach ($ddata as $key => $value) {?>
             <form method="post" action="<?php echo base_url() . "index.php/menucontroller/?action=add&id=" . $value->did; ?>">
 
-          <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+          <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
             <div class="thumbnail">
                   <img src="<?php echo base_url() . "assets/images/pizzadb/" . $value->image; ?>" class="responsive-image" alt="...">
                   <div class="caption">
@@ -258,9 +273,11 @@ function pre_r($array) {
             </tr>
         <?php
 $total = $total + ($product['quantity'] * $product['price']);
+			$_SESSION['subtotal'] = $total;
 			$GST = (($total * $_SESSION['GSTval']) / 100);
 			$QST = (($total * $_SESSION['QSTval']) / 100);
 			$grandtotal = $total + $GST + $QST;
+			$_SESSION['grandtotal'] = $grandtotal;
 		}
 		?>
             <tr>
@@ -294,7 +311,7 @@ if (isset($_SESSION['shopping_cart'])) {
 
                         <label class="text-size-md" for="delivery">Delivery</label>
                         <input type="radio" id="delivery" name="type" value="delivery">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="radio" id="pickup" name="type" value="pickup">
+                        <input type="radio" id="pickup" name="type" checked="checked" value="pickup">
                         <label class="text-size-md" for="pickup">Pickup</label><br>
                         <div class='offset-lg-4 col-sm-12 col-md-5 col-lg-4'>
                             <div class="form-group">

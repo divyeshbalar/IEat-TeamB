@@ -75,6 +75,20 @@ include 'header1.php';
 															<br>
 														<label for="activities">Password</label>
 														<input type="password" style="focus:background-color:transparent;focus:color:black;" name="pass" id="pass" class="form-control">
+														<br>
+														<div class="d-flex justify-content-around">
+													        <div>
+													            <!-- Remember me -->
+													            <div class="custom-control custom-checkbox">
+													                <input type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
+													                <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
+													            </div>
+													        </div>
+													        <div>
+													            <!-- Forgot password -->
+													            <a href="#">Forgot password?</a>
+													        </div>
+													    </div>
 														<!-- <select name="#" id="activities" class="form-control">
 															<option value="">Persons</option>
 															<option value="">1</option>

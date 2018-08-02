@@ -6,19 +6,21 @@ class CheckoutController extends CI_Controller {
 	public function index() {
 		session_start();
 		//echo "Boooooooooooom";
-		if (filter_input(INPUT_GET, 'action') == 'checkout') {
+
+		if (filter_input(INPUT_GET, 'action') == "checkout" || filter_input(INPUT_GET, 'action') == "delete") {
 
 			//check the date range from session ddate
+
 			$this->load->model('restaurantstatus');
 			$gg = $_SESSION['ddate'];
 			$timing = $_SESSION['dtime'];
-			echo $gg;
+			//echo $gg;
 			$ff = substr($gg, 6, 9) . "-" . substr($gg, 0, 2) . "-" . substr($gg, 3, 4);
 			$date = $ff;
 			$sepparator = '-';
 			$parts = explode($sepparator, $date);
 			$dayForDate = date("w", mktime(0, 0, 0, (int) $parts[1], (int) $parts[2], (int) $parts[0]));
-			echo $dayForDate;
+			//echo $dayForDate;
 
 			$data = $this->restaurantstatus->getDates($dayForDate);
 
@@ -44,9 +46,10 @@ class CheckoutController extends CI_Controller {
 					}
 				}
 			}
+		} else {
 			session_write_close();
+			redirect(base_url() . "index.php/menucontroller");
 		}
-		session_write_close();
 	}
 }
 

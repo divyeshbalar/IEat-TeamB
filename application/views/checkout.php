@@ -8,7 +8,24 @@ if (isset($_SESSION['uname'])) {
 	//unset($_SESSION['uname']);
 	$flag = false;
 }
-
+echo $_SESSION['type'];
+if (filter_input(INPUT_GET, 'action') == 'delete') {
+	//loop through all products in the shopping cart until it matches with GET id variable
+	foreach ($_SESSION['shopping_cart'] as $key => $product) {
+		if ($product['id'] == filter_input(INPUT_GET, 'id')) {
+			//remove product from the shopping cart when it matches with the GET id
+			unset($_SESSION['shopping_cart'][$key]);
+			//pre_r($_SESSION);
+		}
+	}
+	//reset session array keys so they match with $product_ids numeric array
+	$_SESSION['shopping_cart'] = array_values($_SESSION['shopping_cart']);
+	if (empty($_SESSION['shopping_cart'])) {
+		redirect(base_url() . "index.php/menucontroller");
+	} else {
+		redirect(base_url() . "index.php/checkoutController/?action=checkout");
+	}
+}
 ?><!DOCTYPE html>
 <html>
 	<head>
@@ -43,6 +60,10 @@ include 'header1.php';
 	.text-size-md{
 		font-size: 24px;
 	}
+	.whiteback{
+		background-color: white !important;
+	}
+
 </style>
 
 	</head>
@@ -60,255 +81,150 @@ include 'header1.php';
 		<div class="gtco-container">
 			<div class="row" style="background-color:transparent; margin-top:100px;">
 
-                <div style="float:center; position: relative; background-color: white;" align="center" class="col-lg-8 col-md-8 col-sm-10 offset-lg-2 offset-md-2 offset-sm-1">
-                	<form>
-                    	<center>
-							<input type="date" name="rdate">
-							<input type="time" name="rtime">
-							<br>
-						<label class="text-black text-size-md" for="delivery">Delivery</label>
-                        <input type="radio" id="delivery" name="type" value="delivery">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="radio" id="pickup" checked name="type" value="pickup">
-                        <label class="text-black text-size-md" for="pickup">Pickup</label>
-						<br>
-						<input type="submit" name="isOpen" class="button" value="check availability">
+                <div style="float:center; position: relative; background-color: white;" align="center" class="col-lg-10 col-md-8 col-sm-10 offset-lg-1 offset-md-2 offset-sm-1">
+                	<!-- Default form login -->
+					<form action="<?php echo base_url() . "index.php/checkoutController/?action=checkout" ?>" class="text-center border border-light p-5">
 
-                    	</center>
-                	</form>
+					    <h3>Checkout</h3>
+
+					    <!-- Email -->
+					    <input type="text" id="pname" name="pname" class="form-control mb-4" placeholder="Enter your name">
+
+					    <!-- Address -->
+					    <input type="address" id="address1" name="address1" class="form-control mb-4" placeholder="Address (2121 St. Mathieu ...)">
+
+						<!-- appartment number -->
+						<input type="text" id="apptno" name="apptno" class="form-control mb-4" placeholder="Apt No. (i.e 1407)">
+						<!-- zip -->
+						<input type="text" id="zipcode" name="zipcode" class="form-control mb-4" placeholder="Zipcode(i.e H3H 2J3)">
+
+						<!-- city -->
+						<input type="city" id="city" name="city" class="form-control mb-4" placeholder="City (i.e Montreal)">
+						<!-- phone number -->
+						<input type="phone" id="phoneno" name="phoneno" class="form-control mb-4" placeholder="Phone number">
+
+
+
+
+	<div style="color: black;" id="cart" class="gtco-cover gtco-cover-sm whiteback">
+					<div class="overlay"></div>
+			            <div class="gtco-container">
+			              <div class="display-t">
+			                <div class="display-tc">
+			                  <div style="clear:both"></div>
+			                <br />
+			                <div class="table-responsive">
+			                <table class="table" style="background-color: #fff; color: #000; border-color: black;">
+			                    <tr><th colspan="5"><h3>Order Details</h3></th></tr>
+			                <tr>
+			                     <th width="40%">Product Name</th>
+			                     <th width="5%">Quantity</th>
+								 <th width="15%">Special Instruction</th>
+			                     <th width="10%">Price</th>
+			                     <th width="15%">Total</th>
+			                     <th width="5%">Action</th>
+			                </tr>
+			        <?php
+
+if (!empty($_SESSION['shopping_cart'])) {
+
+	$total = 0;
+	foreach ($_SESSION['shopping_cart'] as $key => $product) {
+		?>
+			                <tr><td>
+			                    <?php echo $product['name']; ?>
+			                </td>
+			                <td>
+			                    <?php echo $product['quantity']; ?>
+			                </td>
+							<td>
+								<input type="text" name="spe_inst" id="spe_inst">
+							</td>
+			                <td>
+			                    $ <?php echo $product['price']; ?>
+			                </td>
+				            <td>
+			                    $ <?php echo number_format($product['quantity'] * $product['price'], 2); ?>
+			                </td>
+			                <td>
+			                    <a href="<?php echo base_url() . "index.php/checkoutController/?action=delete&id=" . $product['id']; ?>"><div class="btn-danger">Remove</div></a>
+			                </td>
+			            </tr>
+			        <?php
+$total = $total + ($product['quantity'] * $product['price']);
+		$_SESSION['subtotal'] = $total;
+		$GST = (($total * $_SESSION['GSTval']) / 100);
+		$QST = (($total * $_SESSION['QSTval']) / 100);
+		$grandtotal = $total + $GST + $QST;
+		$_SESSION['grandtotal'] = $grandtotal;
+	}
+	echo "Grand Total" . $_SESSION['grandtotal'];
+	if (isset($_SESSION['type'])) {
+		if ($_SESSION['type'] == "delivery") {
+			if ((int) $_SESSION['grandtotal'] < 25) {
+				$_SESSION['errormsg'] = "Minimum amount for delivery is $25";
+				redirect(base_url() . "index.php/menucontroller");
+			}
+
+		}
+	}
+
+	if ($_SESSION['type'] == "delivery" && (int) $_SESSION['grandtotal'] < 25) {
+		$_SESSION['errormsg'] = "Minimum amount for delivery is $25";
+		redirect(base_url() . "index.php/menucontroller");
+	}
+	?>
+			            <tr>
+			              <td colspan="5"></td>
+			            </tr>
+			            <tr>
+
+			            <td align="left">
+			                sub-total + GST(<?php echo $_SESSION['GSTval']; ?>) + QST(<?php echo $_SESSION['QSTval']; ?>)
+			            </td>
+			            <td colspan="3" align="left">
+			                $ <?php echo number_format($total, 2) . "&nbsp;&nbsp;&nbsp; + &nbsp;&nbsp;&nbsp;$" . number_format($GST, 2) . " &nbsp;&nbsp;&nbsp; +  &nbsp;&nbsp;&nbsp;$ " . number_format($QST, 2); ?>
+			            </td>
+			            <td></td>
+			        </tr>
+			        <tr>
+			            <td colspan="4" align="right">Total</td>
+			            <td colspan="2" align="left">
+			                <h4 style="color: #000;">$ <?php echo number_format($grandtotal, 2); ?></h4>
+			            </td>
+			        </tr>
+			        <tr>
+			            <!-- Show checkout button only if the shopping cart is not empty -->
+			            <td colspan="5">
+
+							<div class='offset-lg-2 col-sm-12 col-md-8 col-lg-8'>
+										<label>Delivery date: <?php echo $_SESSION['ddate']; ?></label>
+										<label style="margin-left:25px;">Time: <?php echo $_SESSION['dtimedis']; ?></label>
+			                 </div>
+
+			                <?php }?>
+					    </td>
+			        </tr>
+
+			        </table>
+			         </div>
+			        </div>
+			      </div>
+			    </div>
+</div>
+
+
+					    <!-- Sign in button -->
+					    <button class="btn btn-info btn-block my-4" type="submit">Sign in</button>
+
+
+
+					</form>
+<!-- Default form login -->
 				</div>
             </div>
         </div>
 	</header>
-
-<!--
-
-
-	<div class="gtco-section" id="favorites">
-		<div class="gtco-container">
-			<div class="row">
-				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<h2 class="cursive-font primary-color">Popular Dishes</h2>
-					<p>The most popular and widely loved cuisines including Montreal's world famous dish poutine.</p>
-				</div>
-			</div>
-			<div class="row">
-
-				<div class="col-lg-4 col-md-4 col-sm-6">
-					<a href="<?php echo base_url(); ?>assets/images/s3.jpg" class="fh5co-card-item image-popup">
-						<figure>
-							<div class="overlay"><i class="ti-plus"></i></div>
-							<img src="<?php echo base_url(); ?>assets/images/s3.jpg" alt="Image" class="img-responsive">
-						</figure>
-						<div class="fh5co-text">
-							<h2>poutine</h2>
-							<p>Fresh Fried French Fries with yumm cheese curd and brown gravy on top.</p>
-							<p><span class="price cursive-font">$7.65</span></p>
-						</div>
-					</a>
-				</div>
-				<div class="col-lg-4 col-md-4 col-sm-6">
-					<a href="<?php echo base_url(); ?>assets/images/s2.jpg" class="fh5co-card-item image-popup">
-						<figure>
-							<div class="overlay"><i class="ti-plus"></i></div>
-							<img src="<?php echo base_url(); ?>assets/images/s2.jpg" alt="Image" class="img-responsive">
-						</figure>
-						<div class="fh5co-text">
-							<h2>Cheese and Garlic Toast</h2>
-							<p>Fresh bread moon with cheese, butter, garlic, parsley with Parmesan on top..</p>
-							<p><span class="price cursive-font">$6.99</span></p>
-						</div>
-					</a>
-				</div>
-				<div class="col-lg-4 col-md-4 col-sm-6">
-					<a href="<?php echo base_url(); ?>assets/images/s6.jpg" class="fh5co-card-item image-popup">
-						<figure>
-							<div class="overlay"><i class="ti-plus"></i></div>
-							<img src="<?php echo base_url(); ?>assets/images/s6.jpg" alt="Image" class="img-responsive">
-						</figure>
-						<div class="fh5co-text">
-							<h2>Delicious Pizza</h2>
-							<p>cooked in convention backing oven in a traditional way and Loved by thousands</p>
-							<p><span class="price cursive-font">$12.99</span></p>
-
-						</div>
-					</a>
-				</div>
-
-
-				<div class="col-lg-4 col-md-4 col-sm-6">
-					<a href="<?php echo base_url(); ?>assets/images/s7.jpg" class="fh5co-card-item image-popup">
-						<figure>
-							<div class="overlay"><i class="ti-plus"></i></div>
-							<img src="<?php echo base_url(); ?>assets/images/s7.jpg" alt="Image" class="img-responsive">
-						</figure>
-						<div class="fh5co-text">
-							<h2>Calzon</h2>
-							<p> Italian oven-baked folded pizza made from salted dough, stuffed with sause vegetables and mozzarella</p>
-							<p><span class="price cursive-font">$12.99</span></p>
-						</div>
-					</a>
-				</div>
-
-				<div class="col-lg-4 col-md-4 col-sm-6">
-					<a href="<?php echo base_url(); ?>assets/images/s8.jpg" class="fh5co-card-item image-popup">
-						<figure>
-							<div class="overlay"><i class="ti-plus"></i></div>
-							<img src="<?php echo base_url(); ?>assets/images/s8.1.jpg" alt="Image" class="img-responsive">
-						</figure>
-						<div class="fh5co-text">
-							<h2>Lasagna</h2>
-							<p>One of the oldest wide, flat pasta cooked in traditional way.</p>
-							<p><span class="price cursive-font">$13.99</span></p>
-						</div>
-					</a>
-				</div>
-
-				<div class="col-lg-4 col-md-4 col-sm-6">
-					<a href="<?php echo base_url(); ?>assets/images/s10.1.jpg" class="fh5co-card-item image-popup">
-						<figure>
-							<div class="overlay"><i class="ti-plus"></i></div>
-							<img src="<?php echo base_url(); ?>assets/images/s10.jpg" alt="Image" class="img-responsive">
-						</figure>
-						<div class="fh5co-text">
-							<h2>Eggplant Parmesan</h2>
-							<p>Sausy and cheesy fried egg-deeped eggplants with italiano sause and chese.</p>
-							<p><span class="price cursive-font">$13.99</span></p>
-						</div>
-					</a>
-				</div>
-
-			</div>
-		</div>
-	</div>
--->
-
-	<div id="gtco-features">
-		<div class="gtco-container">
-			<div class="row">
-				<div class="col-md-8 col-md-offset-2 text-center gtco-heading animate-box">
-					<h2 class="cursive-font">Our Services</h2>
-					<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-4 col-sm-6">
-					<div class="feature-center animate-box" data-animate-effect="fadeIn">
-						<span class="icon">
-							<i class="ti-face-smile"></i>
-						</span>
-						<h3>Happy People</h3>
-						<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-					</div>
-				</div>
-				<div class="col-md-4 col-sm-6">
-					<div class="feature-center animate-box" data-animate-effect="fadeIn">
-						<span class="icon">
-							<i class="ti-thought"></i>
-						</span>
-						<h3>Creative Culinary</h3>
-						<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-					</div>
-				</div>
-				<div class="col-md-4 col-sm-6">
-					<div class="feature-center animate-box" data-animate-effect="fadeIn">
-						<span class="icon">
-							<i class="ti-truck"></i>
-						</span>
-						<h3>Food Delivery</h3>
-						<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-					</div>
-				</div>
-
-
-			</div>
-		</div>
-	</div>
-
-<!--
-
-	<div class="gtco-cover gtco-cover-sm" style="background-image: url(<?php echo base_url(); ?>assets/images/img_bg_1.jpg)"  data-stellar-background-ratio="0.5">
-		<div class="overlay"></div>
-		<div class="gtco-container text-center">
-			<div class="display-t">
-				<div class="display-tc">
-					<h1>&ldquo; Their high quality of service makes me back over and over again!&rdquo;</h1>
-					<p>&mdash; Baapu Gathiyawala, CEO of Gandakaka na fafda.</p>
-				</div>
-			</div>
-		</div>
-	</div>
--->
-
-	<div id="gtco-counter" class="gtco-section">
-		<div class="gtco-container">
-
-			<div class="row">
-				<div class="col-md-8 col-md-offset-2 text-center gtco-heading animate-box">
-					<h2 class="cursive-font primary-color">Fun Facts</h2>
-					<p>theres no funfacts in food............</p>
-				</div>
-			</div>
-
-			<div class="row">
-
-				<div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
-					<div class="feature-center">
-						<span class="counter js-counter" data-from="0" data-to="5" data-speed="5000" data-refresh-interval="50">1</span>
-						<span class="counter-label">Avg. Rating</span>
-
-					</div>
-				</div>
-				<div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
-					<div class="feature-center">
-						<span class="counter js-counter" data-from="0" data-to="43" data-speed="5000" data-refresh-interval="50">1</span>
-						<span class="counter-label">Food Types</span>
-					</div>
-				</div>
-				<div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
-					<div class="feature-center">
-						<span class="counter js-counter" data-from="0" data-to="32" data-speed="5000" data-refresh-interval="50">1</span>
-						<span class="counter-label">Chef Cook</span>
-					</div>
-				</div>
-				<div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
-					<div class="feature-center">
-						<span class="counter js-counter" data-from="0" data-to="1985" data-speed="5000" data-refresh-interval="50">1</span>
-						<span class="counter-label">Year Started</span>
-
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</div>
-
-
-
-	<!-- <div id="gtco-subscribe">
-		<div class="gtco-container">
-			<div class="row animate-box">
-				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<h2 class="cursive-font">Subscribe</h2>
-					<p>Be the first to know about the new templates.</p>
-				</div>
-			</div>
-			<div class="row animate-box">
-				<div class="col-md-8 col-md-offset-2">
-					<form class="form-inline">
-						<div class="col-md-6 col-sm-6">
-							<div class="form-group">
-								<label for="email" class="sr-only">Email</label>
-								<input type="email" class="form-control" id="email" placeholder="Your Email">
-							</div>
-						</div>
-						<div class="col-md-6 col-sm-6">
-							<button type="submit" class="btn btn-default btn-block">Subscribe</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div> -->
 
 	<footer id="gtco-footer" role="contentinfo" style="background-image: url(<?php echo base_url(); ?>assets/images/img_bg_1.jpg)" data-stellar-background-ratio="0.5">
 		<div class="overlay"></div>
