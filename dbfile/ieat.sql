@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 31, 2018 at 12:09 AM
+-- Generation Time: Aug 02, 2018 at 12:45 AM
 -- Server version: 5.7.22-log
 -- PHP Version: 7.2.7
 
@@ -91,6 +91,32 @@ CREATE TABLE `product` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `restrotime`
+--
+
+CREATE TABLE `restrotime` (
+  `srno` int(2) NOT NULL,
+  `day` varchar(10) NOT NULL,
+  `startsfrom` float NOT NULL,
+  `endto` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `restrotime`
+--
+
+INSERT INTO `restrotime` (`srno`, `day`, `startsfrom`, `endto`) VALUES
+(5, 'friday', 8, 17),
+(1, 'monday', 8, 22),
+(6, 'saturday', 9, 4),
+(0, 'sunday', 8, 22),
+(4, 'thursday', 8, 22),
+(2, 'tuesday', 8, 22),
+(3, 'wednesday', 8, 22);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tax`
 --
 
@@ -124,6 +150,13 @@ ALTER TABLE `product`
   ADD KEY `INDEX` (`did`);
 
 --
+-- Indexes for table `restrotime`
+--
+ALTER TABLE `restrotime`
+  ADD PRIMARY KEY (`day`),
+  ADD UNIQUE KEY `srno` (`srno`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -132,6 +165,12 @@ ALTER TABLE `product`
 --
 ALTER TABLE `product`
   MODIFY `pid` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `restrotime`
+--
+ALTER TABLE `restrotime`
+  MODIFY `srno` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables

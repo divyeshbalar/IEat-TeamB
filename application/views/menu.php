@@ -10,17 +10,44 @@ if (isset($_SESSION['uname'])) {
 	$flag = false;
 	//$_SESSION['uname'] = "GuestUser";
 }
-//echo "<h1>".$tax[0]->gst."</h1>";
-$_SESSION['GSTval'] = $tax[0]->gst;
-$_SESSION['QSTval'] = $tax[0]->qst;
 
+if (isset($_SESSION['errormsg'])) {
+	echo '<script>alert("' . $_SESSION['errormsg'] . '")</script>';
+	unset($_SESSION['errormsg']);
+}
+//echo "<h1>".$tax[0]->gst."</h1>";
+$_SESSION['GSTval'] = $taxdata[0]->gst;
+$_SESSION['QSTval'] = $taxdata[0]->qst;
+$_SESSION['dtime'] = null;
+$_SESSION['ddate'] = null;
+$_SESSION['type'] = $_GET['type'];
 #this will be call on click on checkout and will check if the user is logged in or not
 if (filter_input(INPUT_GET, 'action') == 'checkout') {
 	if ($flag == false) {
 		redirect(base_url());
 	} else if ($flag == true) #if user is logged in he/she will be transfer to checkout page
 	{
-		redirect(base_url() . "index.php/checkoutcontroller/?action=checkout");
+#this else if will be checked when user is trying to checkout and logged in;
+		#basically it includes the string manipulation for time and date
+		if (filter_input(INPUT_GET, 'ddate')) {
+			$temp = filter_input(INPUT_GET, 'ddate');
+			$ddate = substr($temp, 0, 10);
+			$dtime = substr($temp, 11, 15);
+			if ($dtime[5] == 'P') {
+				$tempo = ((int) ($dtime[0] . $dtime[1]));
+				$tempo = (int) ($tempo + 12);
+			} else {
+				if (($dtime[0] . $dtime[1]) < 9) {
+					$tempo = (int) $dtime[0];
+				} else {
+					$tempo = ((int) ($dtime[0] . $dtime[1]));
+				}
+			}
+			$_SESSION['ddate'] = $ddate;
+			$_SESSION['dtime'] = $tempo;
+			redirect(base_url() . "index.php/checkoutcontroller/?action=checkout");
+		}
+
 	}
 }
 
@@ -257,28 +284,30 @@ $total = $total + ($product['quantity'] * $product['price']);
         <tr>
             <!-- Show checkout button only if the shopping cart is not empty -->
             <td colspan="5">
-             <?php
+<?php
 if (isset($_SESSION['shopping_cart'])) {
 			if (count($_SESSION['shopping_cart']) > 0) {
 				?>
                     <form method="get" action="<?php echo base_url() . "index.php/menucontroller" ?>">
                     <center>
+
                         <label class="text-size-md" for="delivery">Delivery</label>
                         <input type="radio" id="delivery" name="type" value="delivery">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="radio" id="pickup" checked name="type" value="pickup">
+                        <input type="radio" id="pickup" name="type" value="pickup">
                         <label class="text-size-md" for="pickup">Pickup</label><br>
                         <div class='offset-lg-4 col-sm-12 col-md-5 col-lg-4'>
                             <div class="form-group">
                                 <div class='input-group date' id='datetimepicker1'>
-                                    <input type='text' style="border-color:rgb(250, 250, 250, 0.5);" class="form-control a1" />
+                                    <input type='text' id="ddate" name="ddate" style="border-color:rgb(250, 250, 250, 0.5);" class="form-control a1" value="Enter date" />
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
                                 </div>
                             </div>
                         </div>
+
                         </center>
-                        <br>
+
                         <!-- <input type="submit" name="isOpen" class="btn btn-primary addcart button" value="check availability"> -->
                     <input type="submit" name="action" class="btn btn-primary addcart button" value="checkout" style="width: 100%;">
 
@@ -344,6 +373,8 @@ include 'footer1.php';
             $(function () {
                 $('#datetimepicker1').datetimepicker();
             });
+
+            // document.getElementById('#datetimepicker1').value = new Date().toDateInputValue();
         </script>
 </body>
 </html>
