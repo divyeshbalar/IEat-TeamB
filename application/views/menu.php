@@ -20,7 +20,8 @@ $_SESSION['GSTval'] = $taxdata[0]->gst;
 $_SESSION['QSTval'] = $taxdata[0]->qst;
 $_SESSION['dtime'] = null;
 $_SESSION['ddate'] = null;
-$_SESSION['type'] = $_GET['type'];
+
+if (isset($_GET['type'])) {$_SESSION['type'] = $_GET['type'];}
 #this will be call on click on checkout and will check if the user is logged in or not
 if (filter_input(INPUT_GET, 'action') == 'checkout') {
 	if ($flag == false) {
