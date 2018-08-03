@@ -1,13 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-session_start();
-
-if (isset($_SESSION['uname'])) {
-	$flag = true;
-} else {
-	//unset($_SESSION['uname']);
-	$flag = false;
-}
 
 ?><!DOCTYPE html>
 <html>
@@ -37,9 +29,21 @@ if (isset($_SESSION['uname'])) {
 include 'header1.php';
 ?>
 <style type="text/css">
-input:focus{
-	background-color: transparent !important;
-}
+	label{
+		color:white;
+	}
+	input{
+		border: 2px solid #FBB448 !important;
+	}
+	input:focus{
+		color:white;
+	}
+	.top_7{
+	margin-top: 7%;
+	}
+	.form-control{
+		color:white;
+	}
 </style>
 	</head>
 	<body>
@@ -51,47 +55,49 @@ input:focus{
 
 <?php include 'navigation.php';?>
 
-	<header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner" style="background-image: url(<?php echo base_url() ?>assets/images/bg6.jpg)" data-stellar-background-ratio="0.5">
+	<header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner" style="background-image: url(<?php echo base_url() ?>assets/images/bg2.jpg)" data-stellar-background-ratio="0.5">
 		<div class="overlay"></div>
 		<div class="gtco-container">
 			<div class="row">
 				<div class="col-md-12 col-md-offset-0 text-left">
 
 
-					<div class="row row-mt-15em">
-						<div class="col-md-7 mt-text animate-box" data-animate-effect="fadeInUp">
-							<span class="intro-text-small" style="color:white">Food for all</span>
-							<h1 class="cursive-font">All in good taste!</h1>
-						</div>
-						<?php if ($flag == false) {?>
-						<div class="col-md-4 col-md-push-1 animate-box" data-animate-effect="fadeInRight">
+					<div class="row top_7">
+
+						<div class="col-md-10 offset-md-1 col-lg-9 offset-lg-3 animate-box" data-animate-effect="fadeInRight" style="opacity: 0.5 !important;">
+							<label style="font-size: 50px; margin-left: 20%;" class="cursive-font">Register</label>
 							<div class="form-wrap">
 								<div class="tab">
-
-									<div class="tab-content">
-										<div class="tab-content-inner active" data-content="signup">
-											<h3 class="cursive-font">Hungry? Order Now</h3>
 											<form action="<?php echo site_url() . "/logincontrol"; ?>" method="post">
 												<div class="row form-group">
-													<div class="col-md-12">
+													<div class="col-md-12  col-sm-12 col-lg-10 offset-lg-1 ">
 														<label for="activities">Username</label>
-														<input type="text" id="uname" name="uname" class="form-control" style="focus:color:black;focus:background-color:transparent;">
-															<br>
-														<label for="activities">Password</label>
-														<input type="password" style="focus:background-color:transparent;focus:color:black;" name="pass" id="pass" class="form-control">
+														<input required type="text" id="uname" name="uname" class="form-control" >
+
 														<br>
+														<label for="activities">E-mail</label>
+														<input required type="email"  name="email" id="email" class="form-control">
+
+														<br>
+														<label for="activities">First name:</label>
+														<input required type="name"  name="fname" id="fname" class="form-control">
+
+														<br>
+														<label for="activities">Last name:</label>
+														<input type="name"  name="lname" id="lname" class="form-control">
+														<br>
+														<label required for="activities">Password</label>
+														<input type="password"  name="pass" id="pass" class="form-control">
+
+														<br>
+														<label for="activities">Re-type Password</label>
+														<input required type="password"  name="rpass" id="rpass" class="form-control">
+
+
+
+
+
 														<div class="d-flex justify-content-around">
-													        <div>
-													            <!-- Remember me -->
-													            <div class="custom-control custom-checkbox">
-													                <input type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
-													                <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
-													            </div>
-													        </div>
-													        <div>
-													            <!-- Forgot password -->
-													            <a href="#">Forgot password?</a>
-													        </div>
 													    </div>
 
 														<!-- <select name="#" id="activities" class="form-control">
@@ -119,21 +125,15 @@ input:focus{
 
 												<div class="row form-group">
 													<div class="col-md-12">
-														<input type="submit" class="btn btn-primary btn-block" value="Login">
+														<input type="submit" class="btn btn-primary btn-block" value="Register">
 													</div>
-												</div>
-												<div class="d-flex justify-content-around">
-															<a href="<?php echo base_url() . "index.php/registercontroller" ?>">Register/Signup</a>
 												</div>
 											</form>
 										</div>
 
 
-									</div>
-								</div>
 							</div>
 						</div>
-					<?php } else { $flag = true;}?>
 					</div>
 				</div>
 			</div>
@@ -141,7 +141,7 @@ input:focus{
 	</header>
 
 
-
+<!--
 	<div class="gtco-section" id="favorites">
 		<div class="gtco-container">
 			<div class="row">
@@ -238,7 +238,7 @@ input:focus{
 
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 	<div id="gtco-features">
 		<div class="gtco-container">
@@ -412,10 +412,25 @@ input:focus{
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
 	</div>
+<script>
 
+	var password = document.getElementById("pass")
+  , confirm_password = document.getElementById("rpass");
+
+function validatePassword(){
+  if(password.value != confirm_password.value) {
+    confirm_password.setCustomValidity("Passwords Don't Match");
+  } else {
+    confirm_password.setCustomValidity('');
+  }
+}
+
+password.onchange = validatePassword;
+confirm_password.onkeyup = validatePassword;
+
+</script>
 <?php
 include 'footer1.php';
-session_write_close();
 ?>
 	</body>
 </html>
