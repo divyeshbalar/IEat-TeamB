@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+$flag = false;
 ?><!DOCTYPE html>
 <html>
 	<head>

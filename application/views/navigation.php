@@ -3,7 +3,7 @@
 	<nav class="gtco-nav" role="navigation">
 		<div class="gtco-container">
 
-			<div class="row">
+			<div class="row" >
 				<div class="col-sm-4 col-xs-12">
 					<div id="gtco-logo"><a href="<?php echo base_url() ?>index.php">Pizza <em style="font-size: small;">. Restaurant</em></a></div>
 				</div>
@@ -12,8 +12,8 @@
 						<li><a href="<?php echo base_url() ?>index.php/menucontroller">Menu</a></li>
 						<li><a href="<?php echo base_url() ?>index.php/#favorites">Favorites</a></li>
 						<li><a href="#getInTouch">Contact</a></li>
-						<?php if (isset($flag)) {
-	if ($flag == true) {?>
+						<?php
+if ($flag == true) {?>
 							<li class="has-dropdown btn-cta">
 							<a href="services.html"><span><?php echo $_SESSION['uname']; ?></span></a>
 							<ul class="dropdown">
@@ -25,7 +25,7 @@
 							</ul>
 						</li>
 						<!-- <li class="btn-cta"><a href="<?php echo base_url() ?>index.php/logout"><span>Logout</span></a></li> -->
-						<?php }} else {?>
+						<?php } else {?>
 						<li class="btn-cta"><a href="<?php echo base_url() ?>index.php"><span>Register/Login</span></a></li>
 					<?php }?>
 						<!-- <?php if ($flag == true) {?>

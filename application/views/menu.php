@@ -186,7 +186,7 @@ include 'header1.php';
 
 </style>
 	</head>
-	<body class="" style="background-image: url(<?php echo base_url() ?>assets/images/menuback.png);" data-stellar-background-ratio="0.5">
+	<body class="" style="background-image: url(<?php echo base_url() ?>assets/images/menuback8.jpg);" data-stellar-background-ratio="0.5">
 
 
 
