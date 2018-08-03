@@ -36,7 +36,11 @@ if (isset($_SESSION['uname'])) {
 <?php
 include 'header1.php';
 ?>
-
+<style type="text/css">
+input:focus{
+	background-color: transparent !important;
+}
+</style>
 	</head>
 	<body>
 
@@ -71,10 +75,25 @@ include 'header1.php';
 												<div class="row form-group">
 													<div class="col-md-12">
 														<label for="activities">Username</label>
-														<input type="text" id="uname" name="uname" class="form-control">
+														<input type="text" id="uname" name="uname" class="form-control" style="focus:color:black;focus:background-color:transparent;">
 															<br>
 														<label for="activities">Password</label>
-														<input type="password" name="pass" id="pass" class="form-control">
+														<input type="password" style="focus:background-color:transparent;focus:color:black;" name="pass" id="pass" class="form-control">
+														<br>
+														<div class="d-flex justify-content-around">
+													        <div>
+													            <!-- Remember me -->
+													            <div class="custom-control custom-checkbox">
+													                <input type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
+													                <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
+													            </div>
+													        </div>
+													        <div>
+													            <!-- Forgot password -->
+													            <a href="#">Forgot password?</a>
+													        </div>
+													    </div>
+
 														<!-- <select name="#" id="activities" class="form-control">
 															<option value="">Persons</option>
 															<option value="">1</option>
@@ -102,6 +121,9 @@ include 'header1.php';
 													<div class="col-md-12">
 														<input type="submit" class="btn btn-primary btn-block" value="Login">
 													</div>
+												</div>
+												<div class="d-flex justify-content-around">
+															<a href="<?php echo base_url() . "index.php/registercontroller" ?>">Register/Signup</a>
 												</div>
 											</form>
 										</div>

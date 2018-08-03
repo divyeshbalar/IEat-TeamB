@@ -19,8 +19,8 @@ class MenuController extends CI_Controller {
 			// 	}
 		}
 		$this->load->model('taxrender');
-		$menudata['tax'] = $this->taxrender->getTax();
-        $this->load->view('menu', $menudata);
+		$menudata['taxdata'] = $this->taxrender->getTax();
+		$this->load->view('menu', $menudata);
 
 	}
 }
