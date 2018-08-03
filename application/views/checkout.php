@@ -8,7 +8,7 @@ if (isset($_SESSION['uname'])) {
 	//unset($_SESSION['uname']);
 	$flag = false;
 }
-echo $_SESSION['type'];
+//echo $_SESSION['type'];
 if (filter_input(INPUT_GET, 'action') == 'delete') {
 	//loop through all products in the shopping cart until it matches with GET id variable
 	foreach ($_SESSION['shopping_cart'] as $key => $product) {
@@ -83,7 +83,7 @@ include 'header1.php';
 
                 <div style="float:center; position: relative; background-color: white;" align="center" class="col-lg-10 col-md-8 col-sm-10 offset-lg-1 offset-md-2 offset-sm-1">
                 	<!-- Default form login -->
-					<form action="<?php echo base_url() . "index.php/checkoutController/?action=checkout" ?>" class="text-center border border-light p-5">
+					<form method="post" action="<?php echo base_url() . "index.php/orderhistorycontroller" ?>" class="text-center border border-light p-5">
 
 					    <h3>Checkout</h3>
 
@@ -91,17 +91,17 @@ include 'header1.php';
 					    <input type="text" id="pname" name="pname" class="form-control mb-4" placeholder="Enter your name">
 
 					    <!-- Address -->
-					    <input type="address" id="address1" name="address1" class="form-control mb-4" placeholder="Address (2121 St. Mathieu ...)">
+					    <input type="address" required id="address1" name="address1" class="form-control mb-4" placeholder="Address (2121 St. Mathieu ...)">
 
 						<!-- appartment number -->
-						<input type="text" id="apptno" name="apptno" class="form-control mb-4" placeholder="Apt No. (i.e 1407)">
+						<input type="text" id="apptno" required name="apptno" class="form-control mb-4" placeholder="Apt No. (i.e 1407)">
 						<!-- zip -->
-						<input type="text" id="zipcode" name="zipcode" class="form-control mb-4" placeholder="Zipcode(i.e H3H 2J3)">
+						<input type="text" id="zipcode" required name="zipcode" class="form-control mb-4" placeholder="Zipcode(i.e H3H 2J3)">
 
 						<!-- city -->
 						<input type="city" id="city" name="city" class="form-control mb-4" placeholder="City (i.e Montreal)">
 						<!-- phone number -->
-						<input type="phone" id="phoneno" name="phoneno" class="form-control mb-4" placeholder="Phone number">
+						<input type="phone" id="phoneno" required name="phoneno" class="form-control mb-4" placeholder="Phone number">
 
 
 
@@ -158,7 +158,7 @@ $total = $total + ($product['quantity'] * $product['price']);
 		$grandtotal = $total + $GST + $QST;
 		$_SESSION['grandtotal'] = $grandtotal;
 	}
-	echo "Grand Total" . $_SESSION['grandtotal'];
+	//echo "Grand Total" . $_SESSION['grandtotal'];
 	if (isset($_SESSION['type'])) {
 		if ($_SESSION['type'] == "delivery") {
 			if ((int) $_SESSION['grandtotal'] < 25) {
@@ -198,7 +198,7 @@ $total = $total + ($product['quantity'] * $product['price']);
 			            <td colspan="5">
 
 							<div class='offset-lg-2 col-sm-12 col-md-8 col-lg-8'>
-										<label>Delivery date: <?php echo $_SESSION['ddate']; ?></label>
+										<label><?php echo ucfirst($_SESSION['type']); ?> date: <?php echo $_SESSION['ddate']; ?></label>
 										<label style="margin-left:25px;">Time: <?php echo $_SESSION['dtimedis']; ?></label>
 			                 </div>
 
@@ -215,7 +215,7 @@ $total = $total + ($product['quantity'] * $product['price']);
 
 
 					    <!-- Sign in button -->
-					    <button class="btn btn-info btn-block my-4" type="submit">Sign in</button>
+					    <button class="btn btn-primary addcart btn-block" type="submit">Submit</button>
 
 
 

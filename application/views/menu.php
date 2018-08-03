@@ -38,6 +38,10 @@ if (isset($_GET['type'])) {
 }
 #this will be call on click on checkout and will check if the user is logged in or not
 if (filter_input(INPUT_GET, 'action') == 'checkout') {
+	if (filter_input(INPUT_GET, 'ddate') == "") {
+		$_SESSION['errormsg'] = "Please, enter date and time.";
+		redirect(base_url() . "index.php/menucontroller");
+	}
 	if ($flag == false) {
 		redirect(base_url());
 	} else if ($flag == true) #if user is logged in he/she will be transfer to checkout page
@@ -316,7 +320,7 @@ if (isset($_SESSION['shopping_cart'])) {
                         <div class='offset-lg-4 col-sm-12 col-md-5 col-lg-4'>
                             <div class="form-group">
                                 <div class='input-group date' id='datetimepicker1'>
-                                    <input type='text' id="ddate" name="ddate" style="border-color:rgb(250, 250, 250, 0.5);" class="form-control a1" value="Enter date" />
+                                    <input type='text' id="ddate" name="ddate" style="border-color:rgb(250, 250, 250, 0.5);" class="form-control a1" value="" />
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>

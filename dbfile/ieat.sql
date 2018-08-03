@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 02, 2018 at 12:45 AM
+-- Generation Time: Aug 03, 2018 at 12:35 AM
 -- Server version: 5.7.22-log
 -- PHP Version: 7.2.7
 
@@ -21,6 +21,25 @@ SET time_zone = "+00:00";
 --
 -- Database: `ieat`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `areasofdelivery`
+--
+
+CREATE TABLE `areasofdelivery` (
+  `zipcode` varchar(7) NOT NULL,
+  `price` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `areasofdelivery`
+--
+
+INSERT INTO `areasofdelivery` (`zipcode`, `price`) VALUES
+('H3H 2J3', 7),
+('H3H 2N2', 3);
 
 -- --------------------------------------------------------
 
@@ -135,6 +154,12 @@ INSERT INTO `tax` (`gst`, `qst`) VALUES
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `areasofdelivery`
+--
+ALTER TABLE `areasofdelivery`
+  ADD PRIMARY KEY (`zipcode`);
 
 --
 -- Indexes for table `pizzas`
