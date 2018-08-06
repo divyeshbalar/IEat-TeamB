@@ -23,8 +23,9 @@ class OrderValidationController extends CI_Controller {
 			// }
 			//validating the zipcode with the list from database
 			$zip = $this->input->post('zipcode');
+			$zip3 = $zip[0] . $zip[1] . $zip[2];
 			foreach ($areasOfDel['ziplist'] as $key => $value) {
-				if ($value->zipcode == $zip) {
+				if ($value->zipcode == $zip3) {
 					$validArea = true;
 					break;
 				}
@@ -51,7 +52,6 @@ class OrderValidationController extends CI_Controller {
 					'grandtotal' => $_SESSION['grandtotal'],
 					'date' => $_SESSION['ddate'],
 					'time' => $_SESSION['dtimedis']);
-				print_r($_SESSION['orderDtl']);
 			}
 		} else {
 			$_SESSION['orderDtl'] = array(
@@ -71,10 +71,29 @@ class OrderValidationController extends CI_Controller {
 				'grandtotal' => $_SESSION['grandtotal'],
 				'date' => $_SESSION['ddate'],
 				'time' => $_SESSION['dtimedis']);
-
-			print_r($_SESSION['orderDtl']);
 		}
 
+		$data = array(
+			'custid' => $_SESSION['orderDtl']['uname'],
+			'type' => $_SESSION['orderDtl']['type'][0],
+			'cname' => $_SESSION['orderDtl']['pname'],
+			'del_address' => $_SESSION['orderDtl']['address'],
+			'apptno' => $_SESSION['orderDtl']['apptno'],
+			'zipcode' => $_SESSION['orderDtl']['zipcode'],
+			'city' => $_SESSION['orderDtl']['city'],
+			'phoneno' => $_SESSION['orderDtl']['phoneno'],
+			'delInstruction' => $_SESSION['orderDtl']['delInstruction'],
+			'subtotal' => $_SESSION['orderDtl']['subtotal'],
+			'gst' => $_SESSION['orderDtl']['gst'],
+			'qst' => $_SESSION['orderDtl']['qst'],
+			'total' => $_SESSION['orderDtl']['grandtotal'],
+			'date' => $_SESSION['orderDtl']['date'],
+			'time' => $_SESSION['orderDtl']['time'],
+			'status' => 'W',
+		);
+		//Status W(Waiting), D(Done), A(Accepted), R(Rejected).
+		$this->load->model('orderprocessing');
+		$this->orderprocessing->getOrder($data);
 	}
 
 }

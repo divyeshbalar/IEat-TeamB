@@ -12,7 +12,6 @@ class RegController extends CI_Controller {
 			$lname = $this->input->post('lname');
 			$passwd = $this->input->post('pass');
 			$varcode = rand(10000, 99999);
-			echo $varcode;
 
 			$data = array(
 				'custid' => $custid,
@@ -23,7 +22,10 @@ class RegController extends CI_Controller {
 			);
 
 			$this->db->insert('cust', $data);
-
+			session_start();
+			$_SESSION['errormsg'] = "Registration successful.";
+			session_write_close();
+			$this->load->view('welcome_message');
 		}
 	}
 

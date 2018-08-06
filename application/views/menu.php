@@ -40,9 +40,10 @@ if (isset($_GET['type'])) {
 if (filter_input(INPUT_GET, 'action') == 'checkout') {
 	if (filter_input(INPUT_GET, 'ddate') == "") {
 		$_SESSION['errormsg'] = "Please, enter date and time.";
-		redirect(base_url() . "index.php/menucontroller");
+		redirect(base_url() . "index.php/menucontroller/#cart");
 	}
 	if ($flag == false) {
+		$_SESSION['errormsg'] = "Login is requires, in order to place an order.";
 		redirect(base_url());
 	} else if ($flag == true) #if user is logged in he/she will be transfer to checkout page
 	{
@@ -180,9 +181,6 @@ include 'header1.php';
     .a1:focus{
         color: black;
     }
-    .a1{
-        color:white;
-    }
 	.back-white{
 		background-color: rgba(255, 255, 255, 1.0);
 	}
@@ -191,7 +189,7 @@ include 'header1.php';
 	}
 </style>
 	</head>
-	<body class="" style="background-image: url(<?php echo base_url() ?>assets/images/menuback13.jpg);" data-stellar-background-ratio="0.5">
+	<body class="" style="background-image: url(<?php echo base_url() ?>assets/images/menuback2.jpg);" data-stellar-background-ratio="0.5">
 
 
 
@@ -295,7 +293,7 @@ $total = $total + ($product['quantity'] * $product['price']);
             <tr>
 
             <td align="left">
-                sub-total + GST(<?php echo $_SESSION['GSTval']; ?>) + QST(<?php echo $_SESSION['QSTval']; ?>)
+                sub-total + GST(<?php echo $_SESSION['GSTval']; ?>%) + QST(<?php echo $_SESSION['QSTval']; ?>%)
             </td>
             <td colspan="3" align="left">
                 $ <?php echo number_format($total, 2) . "&nbsp;&nbsp;&nbsp; + &nbsp;&nbsp;&nbsp;$" . number_format($GST, 2) . " &nbsp;&nbsp;&nbsp; +  &nbsp;&nbsp;&nbsp;$ " . number_format($QST, 2); ?>

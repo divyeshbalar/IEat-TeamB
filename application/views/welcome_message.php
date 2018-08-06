@@ -9,6 +9,12 @@ if (isset($_SESSION['uname'])) {
 	$flag = false;
 }
 
+if (isset($_SESSION['errormsg'])) {
+	echo '<script>alert("' . $_SESSION['errormsg'] . '")</script>';
+//	$_SESSION['errormsg'] = null;
+	unset($_SESSION['errormsg']);
+}
+
 ?><!DOCTYPE html>
 <html>
 	<head>

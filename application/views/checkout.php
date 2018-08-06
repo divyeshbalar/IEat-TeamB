@@ -183,7 +183,7 @@ $total = $total + ($product['quantity'] * $product['price']);
 			            <tr>
 
 			            <td align="left">
-			                sub-total + GST(<?php echo $_SESSION['GSTval']; ?>) + QST(<?php echo $_SESSION['QSTval']; ?>)
+			                sub-total + GST(<?php echo $_SESSION['GSTval']; ?>%) + QST(<?php echo $_SESSION['QSTval']; ?>%)
 			            </td>
 			            <td colspan="3" align="left">
 			                $ <?php echo number_format($total, 2) . "&nbsp;&nbsp;&nbsp; + &nbsp;&nbsp;&nbsp;$" . number_format($GST, 2) . " &nbsp;&nbsp;&nbsp; +  &nbsp;&nbsp;&nbsp;$ " . number_format($QST, 2); ?>
@@ -191,7 +191,14 @@ $total = $total + ($product['quantity'] * $product['price']);
 			            <td></td>
 			        </tr>
 			        <tr>
-			            <td colspan="4" align="right">Total</td>
+						<td colspan="3" align="center">
+							<div class='offset-lg-2 col-sm-12 col-md-8 col-lg-8'>
+										<label><?php echo ucfirst($_SESSION['type']); ?> date: <?php echo $_SESSION['ddate']; ?></label>
+										<label style="margin-left:25px;">Time: <?php echo $_SESSION['dtimedis']; ?></label>
+			                 </div>
+
+			                <?php }?></td>
+			            <td colspan="1" align="right">Total</td>
 			            <td colspan="2" align="left">
 			                <h4 style="color: #000;">$ <?php echo number_format($grandtotal, 2); ?></h4>
 			            </td>
@@ -199,13 +206,6 @@ $total = $total + ($product['quantity'] * $product['price']);
 			        <tr>
 			            <!-- Show checkout button only if the shopping cart is not empty -->
 			            <td colspan="5">
-
-							<div class='offset-lg-2 col-sm-12 col-md-8 col-lg-8'>
-										<label><?php echo ucfirst($_SESSION['type']); ?> date: <?php echo $_SESSION['ddate']; ?></label>
-										<label style="margin-left:25px;">Time: <?php echo $_SESSION['dtimedis']; ?></label>
-			                 </div>
-
-			                <?php }?>
 					    </td>
 			        </tr>
 
@@ -213,8 +213,8 @@ $total = $total + ($product['quantity'] * $product['price']);
 			         </div>
 			        </div>
 			      </div>
-				<div style="color: black !important; margin-top:-12%;">
-					<textarea class="text-black" style="font-size: 12px" cols="50" rows="4" value="Delivery/Allergic instruction" id="delInstruction" name="delInstruction" ><?php if ($_SESSION['type'] == 'delivery') {?>Delivery <?php } else {?> Pickup <?php }?> Instruction/Allergic instruction
+				<div style="color: black !important; margin-top:-10%;">
+					<textarea class="text-black" style="font-size: 12px" cols="50" rows="3" value="Delivery/Allergic instruction" id="delInstruction" name="delInstruction" ><?php if ($_SESSION['type'] == 'delivery') {?>Delivery <?php } else {?> Pickup <?php }?> Instruction/Allergic instruction
 					</textarea>
 				</div>
 			    </div>
