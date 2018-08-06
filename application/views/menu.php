@@ -183,7 +183,12 @@ include 'header1.php';
     .a1{
         color:white;
     }
-
+	.back-white{
+		background-color: rgba(255, 255, 255, 1.0);
+	}
+	table, td, tr{
+		color:black;
+	}
 </style>
 	</head>
 	<body class="" style="background-image: url(<?php echo base_url() ?>assets/images/menuback13.jpg);" data-stellar-background-ratio="0.5">
@@ -238,7 +243,7 @@ function pre_r($array) {
         <?php }?>
             <div class="overlay"></div>
             <div class="gtco-container">
-              <div class="display-t">
+              <div class="display-t back-white">
                 <div class="display-tc">
                   <div style="clear:both"></div>
                 <br />
@@ -300,7 +305,7 @@ $total = $total + ($product['quantity'] * $product['price']);
         <tr>
             <td colspan="3" align="right">Total</td>
             <td colspan="2" align="left">
-                <h4 style="color: #FFF;">$ <?php echo number_format($grandtotal, 2); ?></h4>
+                <h4 style="color: #000;">$ <?php echo number_format($grandtotal, 2); ?></h4>
             </td>
         </tr>
         <tr>
@@ -320,7 +325,7 @@ if (isset($_SESSION['shopping_cart'])) {
                         <div class='offset-lg-4 col-sm-12 col-md-5 col-lg-4'>
                             <div class="form-group">
                                 <div class='input-group date' id='datetimepicker1'>
-                                    <input type='text' id="ddate" name="ddate" style="border-color:rgb(250, 250, 250, 0.5);" class="form-control a1" value="" />
+                                    <input type='text' id="ddate" name="ddate" class="form-control a1" value="" />
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
@@ -390,6 +395,7 @@ if (isset($_SESSION['shopping_cart'])) {
 
 <?php
 include 'footer1.php';
+//print_r($_SESSION['shopping_cart']);
 ?>
 <script type="text/javascript">
             $(function () {

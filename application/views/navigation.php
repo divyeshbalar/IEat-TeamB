@@ -11,7 +11,7 @@
 					<ul>
 						<li><a href="<?php echo base_url() ?>index.php/menucontroller">Menu</a></li>
 						<li><a href="<?php echo base_url() ?>index.php/#favorites">Favorites</a></li>
-						<li><a href="#getInTouch">Contact</a></li>
+						<li><a href="<?php echo base_url() ?>index.php/#getInTouch">Contact</a></li>
 						<?php
 if ($flag == true) {?>
 							<li class="has-dropdown btn-cta">

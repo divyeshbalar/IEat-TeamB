@@ -30,19 +30,25 @@ include 'header1.php';
 ?>
 <style type="text/css">
 	label{
-		color:white;
+		color:black;
 	}
 	input{
 		border: 2px solid #FBB448 !important;
+		color:black !important;
 	}
 	input:focus{
-		color:white;
+		color:black;
 	}
 	.top_7{
 	margin-top: 7%;
 	}
 	.form-control{
 		color:white;
+	}
+	.whitebackblackcol{
+		background-color: rgba(255, 255, 255, 0.8);
+		color: black;
+		padding:15px;
 	}
 </style>
 	</head>
@@ -65,10 +71,10 @@ include 'header1.php';
 					<div class="row top_7">
 
 						<div class="col-md-10 offset-md-1 col-lg-9 offset-lg-3 animate-box" data-animate-effect="fadeInRight" style="opacity: 0.5 !important;">
-							<label style="font-size: 50px; margin-left: 20%;" class="cursive-font">Register</label>
+							<label style="font-size: 50px; color: white; margin-left: 20%;" class="cursive-font">Register</label>
 							<div class="form-wrap">
 								<div class="tab">
-											<form action="<?php echo site_url() . "/logincontrol"; ?>" method="post">
+											<form action="<?php echo site_url() . "/logincontrol"; ?>" method="post" class="whitebackblackcol">
 												<div class="row form-group">
 													<div class="col-md-12  col-sm-12 col-lg-10 offset-lg-1 ">
 														<label for="activities">Username</label>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 03, 2018 at 12:35 AM
+-- Generation Time: Aug 06, 2018 at 05:35 AM
 -- Server version: 5.7.22-log
 -- PHP Version: 7.2.7
 
@@ -44,6 +44,20 @@ INSERT INTO `areasofdelivery` (`zipcode`, `price`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `baverages`
+--
+
+CREATE TABLE `baverages` (
+  `did` varchar(5) NOT NULL,
+  `dname` varchar(40) NOT NULL,
+  `ddesc` varchar(200) NOT NULL,
+  `price` float NOT NULL,
+  `image` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `cust`
 --
 
@@ -54,17 +68,54 @@ CREATE TABLE `cust` (
   `custemail` varchar(50) NOT NULL,
   `custaddress` varchar(200) NOT NULL,
   `zipcode` varchar(7) NOT NULL,
-  `cellno` int(15) NOT NULL
+  `cellno` int(15) NOT NULL,
+  `vcode` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `cust`
 --
 
-INSERT INTO `cust` (`custid`, `passwd`, `custname`, `custemail`, `custaddress`, `zipcode`, `cellno`) VALUES
-('dbbalar', 'IdontKnow1', 'divyesh', 'divyesh@balar.com', '2121 st mathieu, appt 1407', 'h3h 2j3', 1121212121),
-('root', 'root', 'frank', 'frank@franky.com', '12212 universe, planet mars', 'notneed', 1658),
-('admin', 'admin', 'baap', 'baapkamail@mail.com', 'Baap ka thikana', 'baap111', 1000100010);
+INSERT INTO `cust` (`custid`, `passwd`, `custname`, `custemail`, `custaddress`, `zipcode`, `cellno`, `vcode`) VALUES
+('bababose', 'admin', 'chaim', 'baapkamail@mail.com', 'decarie somewhere', 'H3H 2NJ', 1121212121, 'C623E');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_dtl`
+--
+
+CREATE TABLE `order_dtl` (
+  `oid` int(5) NOT NULL,
+  `custid` varchar(20) NOT NULL,
+  `type` tinyint(1) NOT NULL DEFAULT '0',
+  `cname` varchar(50) NOT NULL,
+  `del_address` varchar(200) NOT NULL,
+  `apptno` varchar(5) NOT NULL,
+  `zipcode` varchar(7) NOT NULL,
+  `city` varchar(20) NOT NULL,
+  `phonemo` int(15) NOT NULL,
+  `delInstruction` varchar(200) NOT NULL,
+  `subtotal` float NOT NULL,
+  `gst` float NOT NULL,
+  `qst` float NOT NULL,
+  `total` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_item_dtl`
+--
+
+CREATE TABLE `order_item_dtl` (
+  `oid` int(5) NOT NULL,
+  `did` varchar(5) NOT NULL,
+  `dname` varchar(40) NOT NULL,
+  `quantity` int(2) NOT NULL,
+  `price` float NOT NULL,
+  `spe_inst` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -162,6 +213,32 @@ ALTER TABLE `areasofdelivery`
   ADD PRIMARY KEY (`zipcode`);
 
 --
+-- Indexes for table `baverages`
+--
+ALTER TABLE `baverages`
+  ADD PRIMARY KEY (`did`);
+
+--
+-- Indexes for table `cust`
+--
+ALTER TABLE `cust`
+  ADD PRIMARY KEY (`custid`);
+
+--
+-- Indexes for table `order_dtl`
+--
+ALTER TABLE `order_dtl`
+  ADD PRIMARY KEY (`oid`),
+  ADD KEY `custid` (`custid`);
+
+--
+-- Indexes for table `order_item_dtl`
+--
+ALTER TABLE `order_item_dtl`
+  ADD KEY `oid` (`oid`),
+  ADD KEY `did` (`did`);
+
+--
 -- Indexes for table `pizzas`
 --
 ALTER TABLE `pizzas`
@@ -186,6 +263,12 @@ ALTER TABLE `restrotime`
 --
 
 --
+-- AUTO_INCREMENT for table `order_dtl`
+--
+ALTER TABLE `order_dtl`
+  MODIFY `oid` int(5) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
@@ -200,6 +283,20 @@ ALTER TABLE `restrotime`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `order_dtl`
+--
+ALTER TABLE `order_dtl`
+  ADD CONSTRAINT `order_dtl_ibfk_1` FOREIGN KEY (`custid`) REFERENCES `cust` (`custid`);
+
+--
+-- Constraints for table `order_item_dtl`
+--
+ALTER TABLE `order_item_dtl`
+  ADD CONSTRAINT `order_item_dtl_ibfk_1` FOREIGN KEY (`oid`) REFERENCES `order_dtl` (`oid`),
+  ADD CONSTRAINT `order_item_dtl_ibfk_2` FOREIGN KEY (`did`) REFERENCES `pizzas` (`did`),
+  ADD CONSTRAINT `order_item_dtl_ibfk_3` FOREIGN KEY (`did`) REFERENCES `baverages` (`did`);
 
 --
 -- Constraints for table `product`
