@@ -47,7 +47,9 @@ class OrderValidationController extends CI_Controller {
 					'subtotal' => $_SESSION['subtotal'],
 					'gst' => ($_SESSION['subtotal'] * ((int) $_SESSION['GSTval'] / 100)),
 					'qst' => ($_SESSION['subtotal'] * ((int) $_SESSION['QSTval'] / 100)),
-					'grandtotal' => $_SESSION['grandtotal']);
+					'grandtotal' => $_SESSION['grandtotal'],
+					'date' => $_SESSION['ddate'],
+					'time' => $_SESSION['dtimedis']);
 				print_r($_SESSION['orderDtl']);
 			}
 		} else {
@@ -65,7 +67,9 @@ class OrderValidationController extends CI_Controller {
 				'subtotal' => $_SESSION['subtotal'],
 				'gst' => ($_SESSION['subtotal'] * ((int) $_SESSION['GSTval'] / 100)),
 				'qst' => ($_SESSION['subtotal'] * ((int) $_SESSION['QSTval'] / 100)),
-				'grandtotal' => $_SESSION['grandtotal']);
+				'grandtotal' => $_SESSION['grandtotal'],
+				'date' => $_SESSION['ddate'],
+				'time' => $_SESSION['dtimedis']);
 
 			print_r($_SESSION['orderDtl']);
 		}

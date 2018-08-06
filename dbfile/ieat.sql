@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 06, 2018 at 05:35 AM
+-- Generation Time: Aug 06, 2018 at 05:47 AM
 -- Server version: 5.7.22-log
 -- PHP Version: 7.2.7
 
@@ -99,7 +99,9 @@ CREATE TABLE `order_dtl` (
   `subtotal` float NOT NULL,
   `gst` float NOT NULL,
   `qst` float NOT NULL,
-  `total` float NOT NULL
+  `total` float NOT NULL,
+  `date` varchar(12) NOT NULL,
+  `time` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
