@@ -21,6 +21,7 @@ class OrderValidationController extends CI_Controller {
 			// foreach ($areasOfDel as $key => $value) {
 			// 	echo $value[0]->zipcode;
 			// }
+			//validating the zipcode with the list from database
 			$zip = $this->input->post('zipcode');
 			foreach ($areasOfDel['ziplist'] as $key => $value) {
 				if ($value->zipcode == $zip) {
@@ -57,10 +58,10 @@ class OrderValidationController extends CI_Controller {
 				'uname' => $_SESSION['uname'],
 				'type' => $_SESSION['type'],
 				'pname' => $this->input->post('pname'),
-				'address' => $this->input->post('address1'),
-				'apptno' => $this->input->post('apptno'),
-				'zipcode' => $this->input->post('zipcode'),
-				'city' => $this->input->post('city'),
+				'address' => "NA",
+				'apptno' => "NA",
+				'zipcode' => "NA",
+				'city' => "NA",
 				'phoneno' => $this->input->post('phoneno'),
 				'orderItems' => $_SESSION['shopping_cart'],
 				'delInstruction' => $this->input->post('delInstruction'),

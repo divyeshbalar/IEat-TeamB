@@ -17,7 +17,7 @@ if ($flag == true) {?>
 							<li class="has-dropdown btn-cta">
 							<a href="services.html"><span><?php echo $_SESSION['uname']; ?></span></a>
 							<ul class="dropdown">
-								<li><a href="#">Profile</a></li>
+								<li><a href="<?php echo base_url() ?>index.php/profilecontroller">Profile</a></li>
 								<li><a href="#">Change Password</a></li>
 								<li><a href="#">Order History</a></li>
 								<li><a href="<?php echo base_url() ?>index.php/logout">Logout</a></li>
