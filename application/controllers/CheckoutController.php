@@ -25,6 +25,7 @@ class CheckoutController extends CI_Controller {
 			$data = $this->restaurantstatus->getDates($dayForDate);
 
 			if ($data == null) {
+				$_SESSION['errormsg'] = "Something went wrong";
 				session_write_close();
 				redirect(base_url() . "index.php/menucontroller");
 			} else {

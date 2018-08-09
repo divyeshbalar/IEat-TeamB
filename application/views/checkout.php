@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 session_start();
-
+// $_SESSION['orderdtl'] = array();
 if (isset($_SESSION['uname'])) {
 	$flag = true;
 } else {
@@ -31,7 +31,7 @@ if (filter_input(INPUT_GET, 'action') == 'delete') {
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Pizza</title>
+	<title>Checkout | IEat</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Free HTML5 Website Template by GetTemplates.co" />
 	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
@@ -83,14 +83,15 @@ include 'header1.php';
 
                 <div style="float:center; position: relative; background-color: white;" align="center" class="col-lg-10 col-md-8 col-sm-10 offset-lg-1 offset-md-2 offset-sm-1">
                 	<!-- Default form login -->
-					<form method="post" action="<?php echo base_url() . "index.php/orderhistorycontroller" ?>" class="text-center border border-light p-5">
+					<form method="post" action="<?php echo base_url() . "index.php/ordervalidationcontroller" ?>" class="text-center border border-light p-5">
 
 					    <h3>Checkout</h3>
 
 					    <!-- Email -->
 					    <input type="text" id="pname" name="pname" class="form-control mb-4" placeholder="Enter your name">
-
+						<?php if ($_SESSION['type'] == 'delivery') {?>
 					    <!-- Address -->
+
 					    <input type="address" required id="address1" name="address1" class="form-control mb-4" placeholder="Address (2121 St. Mathieu ...)">
 
 						<!-- appartment number -->
@@ -100,6 +101,7 @@ include 'header1.php';
 
 						<!-- city -->
 						<input type="city" id="city" name="city" class="form-control mb-4" placeholder="City (i.e Montreal)">
+						<?php }?>
 						<!-- phone number -->
 						<input type="phone" id="phoneno" required name="phoneno" class="form-control mb-4" placeholder="Phone number">
 
@@ -107,7 +109,7 @@ include 'header1.php';
 
 
 	<div style="color: black;" id="cart" class="gtco-cover gtco-cover-sm whiteback">
-					<div class="overlay"></div>
+					<div class="overlay whiteback"></div>
 			            <div class="gtco-container">
 			              <div class="display-t">
 			                <div class="display-tc">
@@ -127,7 +129,7 @@ include 'header1.php';
 			        <?php
 
 if (!empty($_SESSION['shopping_cart'])) {
-
+	$counting = 0;
 	$total = 0;
 	foreach ($_SESSION['shopping_cart'] as $key => $product) {
 		?>
@@ -138,7 +140,7 @@ if (!empty($_SESSION['shopping_cart'])) {
 			                    <?php echo $product['quantity']; ?>
 			                </td>
 							<td>
-								<input type="text" name="spe_inst" id="spe_inst">
+								<input type="text" name="spe_inst<?php echo $counting; ?>" id="spe_inst">
 							</td>
 			                <td>
 			                    $ <?php echo $product['price']; ?>
@@ -157,6 +159,7 @@ $total = $total + ($product['quantity'] * $product['price']);
 		$QST = (($total * $_SESSION['QSTval']) / 100);
 		$grandtotal = $total + $GST + $QST;
 		$_SESSION['grandtotal'] = $grandtotal;
+		$counting += 1;
 	}
 	//echo "Grand Total" . $_SESSION['grandtotal'];
 	if (isset($_SESSION['type'])) {
@@ -180,7 +183,7 @@ $total = $total + ($product['quantity'] * $product['price']);
 			            <tr>
 
 			            <td align="left">
-			                sub-total + GST(<?php echo $_SESSION['GSTval']; ?>) + QST(<?php echo $_SESSION['QSTval']; ?>)
+			                sub-total + GST(<?php echo $_SESSION['GSTval']; ?>%) + QST(<?php echo $_SESSION['QSTval']; ?>%)
 			            </td>
 			            <td colspan="3" align="left">
 			                $ <?php echo number_format($total, 2) . "&nbsp;&nbsp;&nbsp; + &nbsp;&nbsp;&nbsp;$" . number_format($GST, 2) . " &nbsp;&nbsp;&nbsp; +  &nbsp;&nbsp;&nbsp;$ " . number_format($QST, 2); ?>
@@ -188,7 +191,14 @@ $total = $total + ($product['quantity'] * $product['price']);
 			            <td></td>
 			        </tr>
 			        <tr>
-			            <td colspan="4" align="right">Total</td>
+						<td colspan="3" align="center">
+							<div class='offset-lg-2 col-sm-12 col-md-8 col-lg-8'>
+										<label><?php echo ucfirst($_SESSION['type']); ?> date: <?php echo $_SESSION['ddate']; ?></label>
+										<label style="margin-left:25px;">Time: <?php echo $_SESSION['dtimedis']; ?></label>
+			                 </div>
+
+			                <?php }?></td>
+			            <td colspan="1" align="right">Total</td>
 			            <td colspan="2" align="left">
 			                <h4 style="color: #000;">$ <?php echo number_format($grandtotal, 2); ?></h4>
 			            </td>
@@ -196,13 +206,6 @@ $total = $total + ($product['quantity'] * $product['price']);
 			        <tr>
 			            <!-- Show checkout button only if the shopping cart is not empty -->
 			            <td colspan="5">
-
-							<div class='offset-lg-2 col-sm-12 col-md-8 col-lg-8'>
-										<label><?php echo ucfirst($_SESSION['type']); ?> date: <?php echo $_SESSION['ddate']; ?></label>
-										<label style="margin-left:25px;">Time: <?php echo $_SESSION['dtimedis']; ?></label>
-			                 </div>
-
-			                <?php }?>
 					    </td>
 			        </tr>
 
@@ -210,12 +213,17 @@ $total = $total + ($product['quantity'] * $product['price']);
 			         </div>
 			        </div>
 			      </div>
+				<div style="color: black !important; margin-top:-10%;">
+					<textarea class="text-black" style="font-size: 12px" cols="50" rows="3" value="" id="delInstruction" name="delInstruction" ><?php if ($_SESSION['type'] == 'delivery') {?>Delivery <?php } else {?> Pickup <?php }?> Instruction/Allergic instruction
+					</textarea>
+				</div>
 			    </div>
 </div>
 
 
 					    <!-- Sign in button -->
-					    <button class="btn btn-primary addcart btn-block" type="submit">Submit</button>
+						<?php session_write_close();?>
+					    <input class="btn btn-primary addcart btn-block" type="submit">Submit</button>
 
 
 
@@ -226,15 +234,11 @@ $total = $total + ($product['quantity'] * $product['price']);
         </div>
 	</header>
 
-	<footer id="gtco-footer" role="contentinfo" style="background-image: url(<?php echo base_url(); ?>assets/images/img_bg_1.jpg)" data-stellar-background-ratio="0.5">
+	<footer style="margin-top: 20%;" id="gtco-footer" role="contentinfo" style="background-image: url(<?php echo base_url(); ?>assets/images/img_bg_1.jpg)" data-stellar-background-ratio="0.5">
 		<div class="overlay"></div>
 		<div class="gtco-container">
 			<div class="row row-pb-md">
-
-
-
-
-				<div class="col-md-12 text-center">
+				<div style="visibility: hidden;" class="col-md-12 text-center">
 					<div class="gtco-widget">
 						<h3 id="getInTouch">Get In Touch</h3>
 						<ul class="gtco-quick-contact">

@@ -5,19 +5,19 @@
 
 			<div class="row" >
 				<div class="col-sm-4 col-xs-12">
-					<div id="gtco-logo"><a href="<?php echo base_url() ?>index.php">Pizza <em style="font-size: small;">. Restaurant</em></a></div>
+					<div id="gtco-logo"><a href="<?php echo base_url() ?>index.php">IEat <em style="font-size: small;">. Restaurant</em></a></div>
 				</div>
 				<div class="col-xs-8 text-right menu-1">
 					<ul>
 						<li><a href="<?php echo base_url() ?>index.php/menucontroller">Menu</a></li>
 						<li><a href="<?php echo base_url() ?>index.php/#favorites">Favorites</a></li>
-						<li><a href="#getInTouch">Contact</a></li>
+						<li><a href="<?php echo base_url() ?>index.php/#getInTouch">Contact</a></li>
 						<?php
 if ($flag == true) {?>
 							<li class="has-dropdown btn-cta">
 							<a href="services.html"><span><?php echo $_SESSION['uname']; ?></span></a>
 							<ul class="dropdown">
-								<li><a href="#">Profile</a></li>
+								<li><a href="<?php echo base_url() ?>index.php/profilecontroller">Profile</a></li>
 								<li><a href="#">Change Password</a></li>
 								<li><a href="#">Order History</a></li>
 								<li><a href="<?php echo base_url() ?>index.php/logout">Logout</a></li>

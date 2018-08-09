@@ -25,10 +25,16 @@ class LoginControl extends CI_Controller {
 				//echo $value->custid;
 				$temp = $value->custid;
 				$temppass = $value->passwd;
+				$varcode = $value->vcode;
 				if ($temp == $uname && $temppass == $pass) {
-					$_SESSION['uname'] = $uname;
-					session_write_close();
-					$this->load->view('welcome_message');
+					if ($varcode == 1) {
+						$_SESSION['uname'] = $uname;
+						session_write_close();
+						$this->load->view('welcome_message');
+					} else {
+						$_SESSION['errormsg'] = "Your account is not activated";
+						redirect('registercontroller');
+					}
 				}
 				//echo "   valid";
 				// else {
