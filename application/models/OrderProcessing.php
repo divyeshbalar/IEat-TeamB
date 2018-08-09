@@ -13,8 +13,11 @@ class OrderProcessing extends CI_Model {
 		if (!empty($_SESSION['shopping_cart'])) {
 
 			foreach ($_SESSION['shopping_cart'] as $key => $product) {
+				$qry = "SELECT MAX(oid) as rid FROM order_dtl WHERE custid = '" . $data['custid'] . "'";
+				$getoid = $this->db->query($qry);
+				$temp = $getoid->result();
 				$orderSpec = array(
-					'oid' => $specs[0]->oid,
+					'oid' => $temp[0]->rid,
 					'did' => $product['id'],
 					'dname' => $product['name'],
 					'quantity' => $product['quantity'],
@@ -31,6 +34,7 @@ class OrderProcessing extends CI_Model {
 			session_unset();
 			session_start();
 			$_SESSION['uname'] = $uname;
+			$_SESSION['errormsg'] = "Your Order is placed successfully. Check in Order History for acceptance";
 			session_write_close();
 			redirect(base_url() . "index.php/");
 		} else {

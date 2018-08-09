@@ -7,6 +7,8 @@ class MenuController extends CI_Controller {
 
 		$this->load->model('menudatarendering');
 		$menudata['ddata'] = $this->menudatarendering->getDishes();
+		$this->load->model('menu_nav');
+		$menudata['navdata'] = $this->menu_nav->getItems();
 		if ($menudata['ddata'] == null) {
 			echo "No dishes found!";
 			//  else {

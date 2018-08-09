@@ -31,7 +31,7 @@ class RegController extends CI_Controller {
 			);
 
 			$this->db->insert('cust', $data);
-			$Message = "Hey " . $fname . "Your IEat verification code is: " . $varcode;
+			$Message = "Hey " . $fname . ", Your IEat verification code is: " . $varcode;
 			$DestinationAddress = "+1" . $cellno;
 
 			$ViaNettSMS = new ViaNettSMS($Username, $Password);

@@ -31,7 +31,7 @@ if (filter_input(INPUT_GET, 'action') == 'delete') {
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Pizza</title>
+	<title>Checkout | IEat</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Free HTML5 Website Template by GetTemplates.co" />
 	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
@@ -214,7 +214,7 @@ $total = $total + ($product['quantity'] * $product['price']);
 			        </div>
 			      </div>
 				<div style="color: black !important; margin-top:-10%;">
-					<textarea class="text-black" style="font-size: 12px" cols="50" rows="3" value="Delivery/Allergic instruction" id="delInstruction" name="delInstruction" ><?php if ($_SESSION['type'] == 'delivery') {?>Delivery <?php } else {?> Pickup <?php }?> Instruction/Allergic instruction
+					<textarea class="text-black" style="font-size: 12px" cols="50" rows="3" value="" id="delInstruction" name="delInstruction" ><?php if ($_SESSION['type'] == 'delivery') {?>Delivery <?php } else {?> Pickup <?php }?> Instruction/Allergic instruction
 					</textarea>
 				</div>
 			    </div>
