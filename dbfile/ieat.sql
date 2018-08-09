@@ -21,7 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `ieat`
 --
-
+CREATE DATABASE IF NOT EXISTS `ieat` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `ieat`;
 -- --------------------------------------------------------
 
 --
@@ -29,7 +30,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `areasofdelivery` (
-  `zipcode` varchar(7) NOT NULL,
+  `zipcode` varchar(3) NOT NULL,
   `price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -37,9 +38,9 @@ CREATE TABLE `areasofdelivery` (
 -- Dumping data for table `areasofdelivery`
 --
 
-INSERT INTO `areasofdelivery` (`zipcode`, `price`) VALUES
-('H3H 2J3', 7),
-('H3H 2N2', 3);
+-- INSERT INTO `areasofdelivery` (`zipcode`, `price`) VALUES
+-- ('H3H 2J3', 7),
+-- ('H3H 2N2', 3);
 
 -- --------------------------------------------------------
 
@@ -61,12 +62,42 @@ CREATE TABLE `cust` (
 -- Dumping data for table `cust`
 --
 
-INSERT INTO `cust` (`custid`, `passwd`, `custname`, `custemail`, `custaddress`, `zipcode`, `cellno`) VALUES
-('dbbalar', 'IdontKnow1', 'divyesh', 'divyesh@balar.com', '2121 st mathieu, appt 1407', 'h3h 2j3', 1121212121),
-('root', 'root', 'frank', 'frank@franky.com', '12212 universe, planet mars', 'notneed', 1658),
-('admin', 'admin', 'baap', 'baapkamail@mail.com', 'Baap ka thikana', 'baap111', 1000100010);
+-- INSERT INTO `cust` (`custid`, `passwd`, `custname`, `custemail`, `custaddress`, `zipcode`, `cellno`) VALUES
+-- ('dbbalar', 'IdontKnow1', 'divyesh', 'divyesh@balar.com', '2121 st mathieu, appt 1407', 'h3h 2j3', 1121212121),
+-- ('root', 'root', 'frank', 'frank@franky.com', '12212 universe, planet mars', 'notneed', 1658),
+-- ('admin', 'admin', 'baap', 'baapkamail@mail.com', 'Baap ka thikana', 'baap111', 1000100010);
 
 -- --------------------------------------------------------
+
+--
+-- Table structure for table `employees`
+--
+
+CREATE TABLE `employees` (
+  `empid` varchar(20) NOT NULL,
+  `passwd` varchar(30) NOT NULL,
+  `empname` varchar(40) NOT NULL,
+  `empperm` varchar(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `employees` ADD PRIMARY KEY(`empid`);
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product`
+--
+
+CREATE TABLE `product` (
+  `pid` int(4) NOT NULL,
+  `did` varchar(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `product`
+--
+-- INSERT INTO `product` (`pid`, `did`) VALUES
+-- (1, 'P001');
+
 
 --
 -- Table structure for table `pizzas`
@@ -79,32 +110,121 @@ CREATE TABLE `pizzas` (
   `price` float NOT NULL,
   `image` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
+ALTER TABLE `pizzas` ADD PRIMARY KEY(`did`);
 --
 -- Dumping data for table `pizzas`
 --
 
-INSERT INTO `pizzas` (`did`, `dname`, `ddesc`, `price`, `image`) VALUES
-('P001', 'Cheese Pizza', 'Margerita style plain cheese pizza with italiano sause on base', 21.95, 'plain.jpg\r\n'),
-('P002', 'Mexican Pizza', 'In has sizzling hot peppers with greek hebs and a pinch of merijuana  ', 32.56, 'mexican.jpg'),
-('P003', 'All Dressed Pizza', 'All dressed with Green olives, green peppers, Mozzarella cheese, Mushrooms, red onions and tomato', 23.44, 'alldressed.jpg'),
-('P004', 'Greek Pizza', 'It includes Feta Cheese, Fresh Tomato, red onions and black olives and also includes Love from us', 21.95, 'greek.jpg'),
-('P005', 'Mushroom Pizza', 'Fresh mushroom with Cheesy texture on top of italiano base.', 24.99, 'mushroom.jpg\r\n'),
-('P006', 'Green Olive Pizza', 'Full of green olives direct from Italy, with mozzarella cheese. ', 24.99, 'olive-1.jpg'),
-('P007', 'Pepperoni Pizza', 'Fresh salami with tasty sause base full of cheese.', 21.65, 'pepperoni.jpg'),
-('P008', 'Hawaiian Pizza', 'Native Canadian topped with tomato sauce, cheese, pineapple, and bacon or ham.', 30.05, 'hawaiian.jpg'),
-('P009', 'Sicilian pizza', 'Full of veggies and cheese; direct from Sicily, Italy.', 26.95, 'sissilian.jpg'),
-('P010', 'Student Special', 'Green papper, onion and mushroom which i had tonight', 10, 'thinkcrust.jpg');
+-- INSERT INTO `pizzas` (`did`, `dname`, `ddesc`, `price`, `image`) VALUES
+-- ('P001', 'Cheese Pizza', 'Margerita style plain cheese pizza with italiano sause on base', 21.95, 'plain.jpg\r\n'),
+-- ('P002', 'Mexican Pizza', 'In has sizzling hot peppers with greek hebs and a pinch of merijuana  ', 32.56, 'mexican.jpg'),
+-- ('P003', 'All Dressed Pizza', 'All dressed with Green olives, green peppers, Mozzarella cheese, Mushrooms, red onions and tomato', 23.44, 'alldressed.jpg'),
+-- ('P004', 'Greek Pizza', 'It includes Feta Cheese, Fresh Tomato, red onions and black olives and also includes Love from us', 21.95, 'greek.jpg'),
+-- ('P005', 'Mushroom Pizza', 'Fresh mushroom with Cheesy texture on top of italiano base.', 24.99, 'mushroom.jpg\r\n'),
+-- ('P006', 'Green Olive Pizza', 'Full of green olives direct from Italy, with mozzarella cheese. ', 24.99, 'olive-1.jpg'),
+-- ('P007', 'Pepperoni Pizza', 'Fresh salami with tasty sause base full of cheese.', 21.65, 'pepperoni.jpg'),
+-- ('P008', 'Hawaiian Pizza', 'Native Canadian topped with tomato sauce, cheese, pineapple, and bacon or ham.', 30.05, 'hawaiian.jpg'),
+-- ('P009', 'Sicilian pizza', 'Full of veggies and cheese; direct from Sicily, Italy.', 26.95, 'sissilian.jpg'),
+-- ('P010', 'Student Special', 'Green papper, onion and mushroom which i had tonight', 10, 'thinkcrust.jpg');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `product`
+-- Table structure for table `poutines`
 --
 
-CREATE TABLE `product` (
-  `pid` int(4) NOT NULL,
-  `did` varchar(5) NOT NULL
+CREATE TABLE `poutines` (
+  `did` varchar(5) NOT NULL,
+  `dname` varchar(40) NOT NULL,
+  `ddesc` varchar(200) NOT NULL,
+  `price` float NOT NULL,
+  `image` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `poutines` ADD PRIMARY KEY(`did`);
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `calzons`
+--
+
+CREATE TABLE `calzons` (
+  `did` varchar(5) NOT NULL,
+  `dname` varchar(40) NOT NULL,
+  `ddesc` varchar(200) NOT NULL,
+  `price` float NOT NULL,
+  `image` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `calzons` ADD PRIMARY KEY(`did`);
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lasagnas`
+--
+
+CREATE TABLE `lasagnas` (
+  `did` varchar(5) NOT NULL,
+  `dname` varchar(40) NOT NULL,
+  `ddesc` varchar(200) NOT NULL,
+  `price` float NOT NULL,
+  `image` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ALTER TABLE `lasagnas` ADD PRIMARY KEY(`did`);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `eggplants`
+--
+
+CREATE TABLE `eggplants` (
+  `did` varchar(5) NOT NULL,
+  `dname` varchar(40) NOT NULL,
+  `ddesc` varchar(200) NOT NULL,
+  `price` float NOT NULL,
+  `image` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `eggplants` ADD PRIMARY KEY(`did`);
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_dtl`
+--
+CREATE TABLE `order_dtl` (
+  `oid` int(5) NOT NULL,
+  `custid` varchar(20) NOT NULL,
+  `type` tinyint(1) NOT NULL DEFAULT '0',
+  `cname` varchar(50) NOT NULL,
+  `del_address` varchar(200) NOT NULL,
+  `apptno` varchar(5) NOT NULL,
+  `zipcode` varchar(7) NOT NULL,
+  `city` varchar(20) NOT NULL,
+  `phonemo` int(15) NOT NULL,
+  `delInstruction` varchar(200) NOT NULL,
+  `subtotal` float NOT NULL,
+  `gst` float NOT NULL,
+  `qst` float NOT NULL,
+  `total` float NOT NULL,
+  `date` varchar(12) NOT NULL,
+  `time` varchar(10) NOT NULL,
+  `status` varchar(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_spec`
+--
+
+CREATE TABLE `order_spec` (
+  `oid` int(5) NOT NULL,
+  `did` varchar(5) NOT NULL,
+  `dname` varchar(40) NOT NULL,
+  `quantity` int(2) NOT NULL,
+  `price` float NOT NULL,
+  `spe_inst` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -125,13 +245,13 @@ CREATE TABLE `restrotime` (
 --
 
 INSERT INTO `restrotime` (`srno`, `day`, `startsfrom`, `endto`) VALUES
-(5, 'friday', 8, 17),
-(1, 'monday', 8, 22),
-(6, 'saturday', 9, 4),
-(0, 'sunday', 8, 22),
-(4, 'thursday', 8, 22),
-(2, 'tuesday', 8, 22),
-(3, 'wednesday', 8, 22);
+ (5, 'friday', 8, 17),
+ (1, 'monday', 8, 22),
+ (6, 'saturday', 9, 4),
+ (0, 'sunday', 8, 22),
+ (4, 'thursday', 8, 22),
+ (2, 'tuesday', 8, 22),
+ (3, 'wednesday', 8, 22);
 
 -- --------------------------------------------------------
 
@@ -148,8 +268,8 @@ CREATE TABLE `tax` (
 -- Dumping data for table `tax`
 --
 
-INSERT INTO `tax` (`gst`, `qst`) VALUES
-(5, 9.98);
+-- INSERT INTO `tax` (`gst`, `qst`) VALUES
+-- (5, 9.98);
 
 --
 -- Indexes for dumped tables
@@ -164,8 +284,8 @@ ALTER TABLE `areasofdelivery`
 --
 -- Indexes for table `pizzas`
 --
-ALTER TABLE `pizzas`
-  ADD PRIMARY KEY (`did`);
+-- ALTER TABLE `pizzas`
+--   ADD PRIMARY KEY (`did`);
 
 --
 -- Indexes for table `product`

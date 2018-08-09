@@ -1,12 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-session_start();
-
+//session_start();
 if (isset($_SESSION['admin'])) {
-	$flag = true;
+	$flagadmin = true;
 } else {
+	
 	//unset($_SESSION['uname']);
-	$flag = false;
+	$flagadmin = false;
 }
 
 ?><!DOCTYPE html>
@@ -23,7 +23,8 @@ if (isset($_SESSION['admin'])) {
 		<link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
 	</head>
 	<body>
-		<?php if ($flag == false){?>
+		<?php
+		if ($flagadmin == false){?>
 			<form action="<?php echo site_url() . "/loginadmin"; ?>" method="post">
 				<label for="activities">Username</label>
 				<input type="text" id="uname" name="uname" class="form-control">
@@ -32,11 +33,8 @@ if (isset($_SESSION['admin'])) {
 				<input type="password" name="pass" id="pass" class="form-control">
 				<br>
 				<input type="submit" class="btn btn-primary btn-block" value="Login">
+				<input type="hidden" id ="function" name="function" value = "login">
 			</form>
-		<?php } else { ?>
-			<h1> I need someone that works on html quickly</h1>
-			<h3> add options to admins</h3>
-			
 		<?php }?>
 	</body>
 </html>

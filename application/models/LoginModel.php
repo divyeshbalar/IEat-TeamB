@@ -15,7 +15,7 @@ class LoginModel extends CI_Model {
 	}
 	public function adminverification($uname = '', $pass = ''){
 		$this->load->database();
-		$query = $this->db->get_where('cust',array('custid'=>$uname,'passwd' => $pass));
+		$query = $this->db->get_where('employees',array('empid'=>$uname,'passwd' => $pass));
 		return $query->result();
 	}
 }

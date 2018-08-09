@@ -7,6 +7,7 @@ class Logout extends CI_Controller {
 		session_start();
 		if (isset($_SESSION)) {
 			unset($_SESSION['uname']);
+			unset($_SESSION['admin']);
 			session_destroy();
 		} else {
 			session_destroy();

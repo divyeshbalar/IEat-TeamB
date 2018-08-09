@@ -7,6 +7,8 @@ class LoginAdmin extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->helper('url');
 		session_start();
+		$funct = $this->input->post('function');
+		if($funct == 'login'){
 		$uname = $this->input->post('uname');
 		$pass = $this->input->post('pass');
 		//echo $uname . " ------ " . $pass;
@@ -14,23 +16,32 @@ class LoginAdmin extends CI_Controller {
 		//$flag = false;
 		$data = $this->loginmodel->adminverification($uname, $pass);
 		if ($data == null) {
-
 			session_write_close();
 			echo "<script>alert('Invalid Username or Password')</script>";
 			$this->load->view('admin_view');
 			//echo "   Invalid";
-
 		} else {
 			foreach ($data as $key => $value) {
 				//echo $value->custid;
-				$temp = $value->custid;
+				$temp = $value->empid;
 				$temppass = $value->passwd;
 				if ($temp == $uname && $temppass == $pass) {
 					$_SESSION['admin'] = $uname;
 					session_write_close();
-					$this->load->view('admin_view');
+					$this->load->view('dishesview');
 				}
 			}
+		}
+		}else{
+			if (isset($_SESSION)) {
+			unset($_SESSION['admin']);
+			session_destroy();
+			} else {
+				session_destroy();
+			//$flag = false;
+			}
+			unset($flagadmin);
+			$this->load->view('admin_view');
 		}
 		// echo "$data is flag value";
 		// if ($flag == false) {
