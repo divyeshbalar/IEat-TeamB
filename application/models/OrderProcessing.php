@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class OrderProcessing extends CI_Model {
 	public function getOrder($data = array()) {
+
 		$this->load->database();
 		$this->db->insert('order_dtl', $data); //this should be done in model
 		$query = $this->db->get_where('order_dtl', array('custid' => $data['custid'], 'status' => 'W'));
@@ -32,6 +33,9 @@ class OrderProcessing extends CI_Model {
 			$_SESSION['uname'] = $uname;
 			session_write_close();
 			redirect(base_url() . "index.php/");
+		} else {
+			$_SESSION['errormsg'] = "Something went wrong \n try again";
+			redirect(base_url() . "index.php/menucontroller/#cart");
 		}
 
 	}

@@ -1,7 +1,21 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 $flag = false;
-?><!DOCTYPE html>
+$verify = true;
+session_start();
+if (isset($_SESSION['errormsg'])) {
+	echo '<script>alert("' . $_SESSION['errormsg'] . '")</script>';
+//	$_SESSION['errormsg'] = null;
+	if ($_SESSION['errormsg'] == "Registration successful." || $_SESSION['errormsg'] == "Your account is not activated") {
+		$verify = false;
+		unset($_SESSION['errormsg']);
+	} else {
+		$verify = true;
+		unset($_SESSION['errormsg']);
+	}
+}
+?>
+<!DOCTYPE html>
 <html>
 	<head>
 	<meta charset="utf-8">
@@ -74,30 +88,31 @@ include 'header1.php';
 							<label style="font-size: 50px; color: white; margin-left: 20%;" class="cursive-font">Register</label>
 							<div class="form-wrap">
 								<div class="tab">
+									<?php if ($verify == true) {?>
 											<form action="<?php echo site_url() . "/regcontroller"; ?>" method="post" class="whitebackblackcol">
 												<div class="row form-group">
 													<div class="col-md-12  col-sm-12 col-lg-10 offset-lg-1 ">
+														<label for="activities">Phone no</label>
+														<input required type="text" id="cellno" name="cellno" class="form-control" placeholder="4385010174" >
+														<br>
 														<label for="activities">Username</label>
-														<input required type="text" id="uname" name="uname" class="form-control" >
+														<input required type="text" id="uname" name="uname" class="form-control" placeholder="Enter username" >
 
 														<br>
 														<label for="activities">E-mail</label>
-														<input required type="email"  name="email" id="email" class="form-control">
+														<input required type="email"  name="email" id="email" class="form-control" placeholder="Enter email">
 
 														<br>
 														<label for="activities">First name:</label>
-														<input required type="name"  name="fname" id="fname" class="form-control">
+														<input required type="name"  name="fname" id="fname" class="form-control" placeholder="Enter Firstname">
+														<br>
 
-														<br>
-														<label for="activities">Last name:</label>
-														<input type="name"  name="lname" id="lname" class="form-control">
-														<br>
 														<label required for="activities">Password</label>
-														<input type="password"  name="pass" id="pass" class="form-control">
+														<input type="password"  name="pass" id="pass" class="form-control" placeholder="Enter Password">
 
 														<br>
 														<label for="activities">Re-type Password</label>
-														<input required type="password"  name="rpass" id="rpass" class="form-control">
+														<input required type="password"  name="rpass" id="rpass" class="form-control" placeholder="Retype Password">
 
 
 
@@ -135,6 +150,31 @@ include 'header1.php';
 													</div>
 												</div>
 											</form>
+									<?php } else {?>
+
+											<form action="<?php echo site_url() . "/regcontroller"; ?>" method="post" class="whitebackblackcol">
+												<div class="row form-group">
+													<div class="col-md-12  col-sm-12 col-lg-10 offset-lg-1 ">
+
+														<label for="activities">Username: </label>
+														<input required type="text" id="uname" name="uname" class="form-control" placeholder="(i.e Divyesh)" >
+														<br>
+													<label for="activities">Enter Verification Code</label>
+														<input required type="text" id="vcode" name="vcode" class="form-control" placeholder="(i.e 54787)" >
+														<br>
+														<div class="d-flex justify-content-around">
+													    </div>
+													</div>
+												</div>
+												<div class="row form-group">
+													<div class="col-md-12">
+														<input name="action" type="submit" class="btn btn-primary btn-block" value="Verify">
+													</div>
+												</div>
+											</form>
+										<?php }?>
+
+
 										</div>
 
 
