@@ -8,6 +8,11 @@ if (isset($_SESSION['uname'])) {
 	//unset($_SESSION['uname']);
 	$flag = false;
 }
+if (isset($_SESSION['errormsg'])) {
+	echo '<script>alert("' . $_SESSION['errormsg'] . '")</script>';
+//	$_SESSION['errormsg'] = null;
+	unset($_SESSION['errormsg']);
+}
 //echo $_SESSION['type'];
 if (filter_input(INPUT_GET, 'action') == 'delete') {
 	//loop through all products in the shopping cart until it matches with GET id variable

@@ -19,7 +19,7 @@ if ($flag == true) {?>
 							<ul class="dropdown">
 								<li><a href="<?php echo base_url() ?>index.php/profilecontroller">Profile</a></li>
 								<li><a href="#">Change Password</a></li>
-								<li><a href="#">Order History</a></li>
+								<li><a href="<?php echo base_url() ?>index.php/orderhistorycontroller">My Orders</a></li>
 								<li><a href="<?php echo base_url() ?>index.php/logout">Logout</a></li>
 
 							</ul>
