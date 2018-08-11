@@ -126,7 +126,7 @@ if ($value->status == 'W') {
 	} else {
 		echo "Contact us";
 	}?></b></span>
-									<span class="fright"><a href="<?php echo base_url() . "index.php/cancelordercontroller/?action=" . $value->oid . "&date=" . $value->date; ?>"> Cancel Order </a></span>
+									<span class="fright" <?php if ($value->status == 'W' || $value->status == 'A') {} else {echo 'hidden="true"';}?>><a href="<?php echo base_url() . "index.php/cancelordercontroller/?action=" . $value->oid . "&date=" . $value->date; ?>"> Cancel Order </a></span>
 								</div>
 								<div>
 									<span class="ototal odetail">Order Detail</span>

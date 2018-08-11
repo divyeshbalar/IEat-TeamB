@@ -1,5 +1,20 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+session_start();
+
+if (isset($_SESSION['adminuname'])) {
+	$flag = true;
+} else {
+	//unset($_SESSION['uname']);
+	$flag = false;
+	redirect(base_url() . "index.php/admincontrol");
+}
+
+if (isset($_SESSION['errormsg'])) {
+	echo '<script>alert("' . $_SESSION['errormsg'] . '")</script>';
+//	$_SESSION['errormsg'] = null;
+	unset($_SESSION['errormsg']);
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,61 +28,135 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<meta name="author" content="GetTemplates.co" />
 		<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+
+
+<?php
+include 'header1.php';
+?>
+<style type="text/css">
+body{
+	color:black !important;
+}
+input:focus{
+	background-color: transparent !important;
+}
+.backwhite{
+	background-color: white;
+}
+table{
+	padding: 15px;
+	z-index: 10;
+}
+th, tr{
+	text-align:center;
+}
+</style>
 	</head>
-	<body>
-		<h1>Management Delivery Areas</h1>
-		<table id="data" border="1">
-            <thead>
-                <tr>
-                    <th>Name</th>
-					<th>Type</th>
-                    <th>Description</th>
-					<th>Price</th>
-					<th>Image</th>
-					<th> Update </th>
-					<th> Delete </th>
-                </tr>
-            </thead>
-            <tbody>
-				<tr>
-					<form name="CreateAreaDelivery" id="CreateAreaDelivery" method="POST" enctype="multipart/form-data" action=<?php echo site_url() . "/admincontroller/createdish"; ?>>
-						<th><input type="text" name="name" id ="name" value=""></th>
-						<th>
-							<select name="type" id="type">
-								<?php foreach($sections as $section){ ?>
-									<option name="<?php echo($section['name']);?>"><?php echo($section['name']);?></option>
-								<?php
-								}?>
-							</select>
-							</th>
-						<th><input type="text" name="description" id ="description" value=""></th>
-						<th><input type="text" name="price" id ="price" value=""></th>
-						<th><input type="file" name="image"></th>
-						<th><input  type="submit" name="add" id="add" value="Add"></th>
-					</form>
-				</tr>
-				<?php foreach($dishes as $item){ 
-				?>
-					<tr>
-						<form name="UpdateDish" id="UpdateDish" method="POST" enctype="multipart/form-data" action=<?php echo site_url() . "/admincontroller/updatedish"; ?>>
-							<th><input type="text" name="name" id ="name" value="<?php echo($item['p_name'])?>"></th>
-							<th><?php echo($item['p_type']);?></th>
-							<input type="hidden" name="type" id="type" value="<?php echo($item['p_type']);?>">
-							<th><input type="text" name="description" id ="description" value="<?php echo($item['p_desc'])?>"></th>
-							<th><input type="text" name="price" id ="price" value="<?php echo($item['p_cost'])?>"></th>
-							<th><img src="<?php echo base_url(); ?>assets/images/<?php echo($item['image']); ?>" height="50" width="50">
-							<input type="file" name="image">
-							</th>
-							<th><input  type="submit" name="update" id="update" value="Update"></th>
-						</form>
-						<form name="DeleteAreaDelivery" id="DeleteAreaDelivery" method="POST" enctype="multipart/form-data" action=<?php echo site_url() . "/admincontroller/deletedish"; ?>>
-							<input type="hidden" name="name" id ="name" value="<?php echo($item['p_name'])?>">
-							<th><input  type="submit" name="update" id="update" value="Delete"></th>
-						</form>
-					</tr>
-				<?php
-				} ?>	
-            </tbody>
-        </table>
+	<body style="background-color: rgba(0, 0, 0, 0.8);">
+
+	<div class="gtco-loader"></div>
+
+	<div id="page">
+
+
+<?php include 'adminnavigation.php';?>
+
+		<div class="overlay"></div>
+		<div class="gtco-container">
+			<div class="row">
+				<div style="margin-top: 10%;">
+
+
+						<h2>Menu Management</h2>
+						<div class="backwhite" style="padding: 15px;">
+								<table id="data" border="1">
+						            <thead>
+						                <tr>
+						                    <th>Dish Name</th>
+											<th>Section</th>
+						                    <th colspan="1">Description</th>
+											<th>Price</th>
+											<th colspan="1">Image</th>
+											<th> Update </th>
+											<th> Delete </th>
+						                </tr>
+						            </thead>
+						            <tbody>
+										<tr>
+											<form name="CreateAreaDelivery" id="CreateAreaDelivery" method="POST" enctype="multipart/form-data" action=<?php echo site_url() . "/admincontroller/createdish"; ?>>
+												<th><input type="text" placeholder="Enter new dish name" name="name" id ="name" value=""></th>
+												<th>
+													<select name="type" id="type">
+														<?php foreach ($sections as $section) {?>
+															<option name="<?php echo ($section['name']); ?>" value="<?php echo ($section['name']); ?>"><?php echo ($section['name']); ?></option>
+														<?php
+}?>
+													</select>
+													</th>
+												<th colspan="1"><textarea placeholder="Enter description of dish" type="text" cols="30" name="description" id ="description" value=""></textarea></th>
+												<th><input type="text" placeholder="Enter price" name="price" id ="price" value=""></th>
+												<th colspan="1"><input type="file" name="image"></th>
+												<th><input  type="submit" name="add" id="add" value="Add"></th>
+											</form>
+										</tr>
+										<?php
+foreach ($dishes as $item) {
+	?>
+
+											<tr>
+												<form name="UpdateDish" id="UpdateDish" method="POST" enctype="multipart/form-data" action=<?php echo site_url() . "/admincontroller/updateDish"; ?>>
+
+													<td>
+														<input type="text" name="name" id ="name" value="<?php echo ($item['p_name']) ?>">
+													</td>
+													<td>
+														<?php echo $item['p_type']; ?><input type="hidden" name="type" id="type" value="<?php echo $item['p_type']; ?>">
+													</td>
+
+													<td colspan="1">
+														<textarea cols="30" type="text" name="description" id ="description"><?php echo ($item['p_desc']) ?></textarea>
+													</td>
+													<td>
+														<input type="text" name="price" id ="price" value="<?php echo ($item['p_cost']) ?>">
+													</td>
+													<th colspan="1">
+														<img src="<?php echo base_url(); ?>assets/images/pizzadb/<?php echo ($item['image']); ?>" height="50" width="50">
+														<input type="file" name="image">
+													</td>
+													<td>
+														<input  type="submit" name="update" id="update" value="Update"></td>
+												</form>
+												<form name="DeleteDish" id="DeleteDish" method="POST" enctype="multipart/form-data" action="<?php echo site_url() . '/admincontroller/deleteDish'; ?>" >
+													<input type="hidden" name="name" id ="name" value="<?php echo ($item['p_name']) ?>">
+													<input type="hidden" name="type" id ="type" value="<?php echo ($item['p_type']) ?>">
+													<td><input  type="submit" name="delete" id="delete" value="Delete"></td>
+												</form>
+											</tr>
+										<?php
+}?>
+						            </tbody>
+						        </table>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+
+	</div>
+
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+	</div>
+
+<?php
+include 'footer1.php';
+session_write_close();
+?>
 	</body>
 </html>

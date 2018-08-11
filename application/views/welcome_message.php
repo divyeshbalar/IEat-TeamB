@@ -294,8 +294,13 @@ input:focus{
 		<div class="gtco-container text-center">
 			<div class="display-t">
 				<div class="display-tc">
-					<h1>&ldquo; Their high quality of service makes me back over and over again!&rdquo;</h1>
-					<p>&mdash; Baapu Gathiyawala, CEO of Gandakaka na fafda.</p>
+					<h1 style="color:white" class="cursive-font">iEAT Team</h1>
+                          <p>iEat is a food ordering system which provides flexible and convinient way to order food online from anywhere within Montreal region. iEat specializes in cuisines like English, French and Italian providing range of items like Pizza, Poutine, salads and others.
+                          Happy Ordering...!!!
+                          </p>
+							<p>&mdash; Baapu Gathiyawala, CEO of IEat.</p>
+					<!-- <h1>&ldquo; Their high quality of service makes me back over and over again!&rdquo;</h1>
+					<p>&mdash; Baapu Gathiyawala, CEO of Gandakaka na fafda.</p> -->
 				</div>
 			</div>
 		</div>

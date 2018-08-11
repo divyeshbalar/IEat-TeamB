@@ -1,13 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-session_start();
-
-if (isset($_SESSION['admin'])) {
-	$flag = true;
-} else {
-	//unset($_SESSION['uname']);
-	$flag = false;
-}
 
 class AdminControl extends CI_Controller {
 
@@ -28,6 +20,6 @@ class AdminControl extends CI_Controller {
 	 */
 	public function index() {
 		$this->load->helper('url');
-		$this->load->view('admin_view');
+		$this->load->view('admin_side');
 	}
 }
