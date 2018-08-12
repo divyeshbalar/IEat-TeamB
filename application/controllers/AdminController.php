@@ -251,6 +251,69 @@ class AdminController extends CI_Controller {
 		$this->adminmodel->CreateSection($name,$prefix);
 		$this->readSections();
 	}
+	// Order Management
+	public function readOrders(){
+		$this->load->helper('form');
+		$this->load->helper('url');
+		$this->load->model('adminmodel');
+		$orders = $this->adminmodel->readOrders();
+		if($orders != NULL){
+			foreach($orders as $row){
+				$order = array('oid'=>$row->oid,'custid'=>$row->custid,'type'=>$row->type,'cname'=>$row->cname,
+				               'del_address'=>$row->del_address,'apptno'=>$row->apptno,'zipcode'=>$row->zipcode,
+							   'city'=>$row->city,'phonemo'=>$row->phonemo,'delInstruction'=>$row->delInstruction,
+							   'subtotal'=>$row->subtotal,'gst'=>$row->gst,'qst'=>$row->qst,'total'=>$row->total,
+							   'date'=>$row->date,'time'=>$row->time,'status'=>$row->status
+							   );
+				$data[]=$order;
+			}
+			$data['orders']=$data;
+			$data_aid = array_diff_key($data,array('orders'=>$data['orders']));
+			$data = array_diff_key($data,$data_aid);
+			$this->load->view('adminorders',$data);
+		}else{
+			$data['orders'] = [];
+			$this->load->view('adminorders',$data);
+		}
+	}
+	public function updateOrder(){
+		$this->load->helper('form');
+		$this->load->helper('url');
+		$this->load->model('adminmodel');
+		$oid = $this->input->post('oid');
+		$state = $this->input->post('status');
+		$this->adminmodel->updateOrder($oid,$state);
+		$this->readOrders();
+	}
+	public function detailOrder(){
+		$this->load->helper('form');
+		$this->load->helper('url');
+		$this->load->model('adminmodel');
+		$oid = $this->input->post('oid');
+		$orderspec = $this->adminmodel->readOrderSpec($oid);
+		if($orderspec != NULL){
+			foreach($orderspec as $row){
+				$specification = array('oid'=>$row->oid,'did'=>$row->did,'dname'=>$row->dname,'quantity'=>$row->quantity,
+				               'price'=>$row->price,'spe_inst'=>$row->spe_inst
+							   );
+				$data[]=$specification;
+			}
+			$data['specification']=$data;
+			$data_aid = array_diff_key($data,array('specification'=>$data['specification']));
+			$data = array_diff_key($data,$data_aid);
+		}else{
+			$data['specification']=[];
+		}
+		$this->load->view('adminorderspec',$data);
+	}
+	public function deleteOrder(){
+		$this->load->helper('form');
+		$this->load->helper('url');
+		$this->load->model('adminmodel');
+		$oid = $this->input->post('oid');
+		$this->adminmodel->deleteOrder($oid);
+		$this->readOrders();
+	}
 }
 
 /* End of file LoginAdmin.php */
