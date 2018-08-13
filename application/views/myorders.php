@@ -49,7 +49,7 @@ input:focus{
 }
 div, span{
 	/*border: 1px solid black;*/
-	padding: 5px;
+	/*padding: 5px;*/
 /*border-radius: 5px;*/
 	}
 span, label{
