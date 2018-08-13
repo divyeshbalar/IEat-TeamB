@@ -85,6 +85,7 @@ class AdminModel extends CI_model {
 		return $result->result();
 	}
 	public function updateMainDish($type, $name, $cost, $description, $image) {
+
 		$this->load->database();
 		$did = '';
 		$table = $type;

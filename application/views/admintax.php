@@ -81,7 +81,7 @@ th, tr{
             <thead>
                 <tr>
                     <th>Tax</th>
-                    <th>Rate</th>
+                    <th>Rate in %</th>
 					<th>Update</th>
                 </tr>
             </thead>

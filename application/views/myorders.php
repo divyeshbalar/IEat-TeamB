@@ -138,7 +138,7 @@ $j = 1;
 		if ($orderid == $valuein->oid) {
 			?>
 										<div>
-										<span><?php echo $j . " " . $valuein->dname; ?></span>&nbsp;&nbsp;<span class="fright">Price: <?php echo $valuein->price; ?></span><span class="fright">Qty: <?php echo $valuein->quantity; ?></span>
+										<span><?php echo $j . " " . $valuein->dname; ?></span>&nbsp;&nbsp;<span class="fright">Price: <?php echo $valuein->price; ?></span><span class="fright">Qty: <?php echo $valuein->quantity . " "; ?></span>
 										</div>
 									<?php }
 		$j++;}

@@ -48,6 +48,7 @@ input:focus{
 }
 table{
 	padding: 15px;
+	width: 100%;
 	z-index: 10;
 }
 th, tr{

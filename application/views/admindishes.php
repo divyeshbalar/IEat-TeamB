@@ -113,7 +113,7 @@ foreach ($dishes as $item) {
 														<input type="text" name="name" id ="name" value="<?php echo ($item['p_name']) ?>">
 													</td>
 													<td>
-														<?php echo $item['p_type']; ?><input type="hidden" name="type" id="type" value="<?php echo $item['p_type']; ?>">
+														<?php echo $item['p_type']; ?><input type="hidden" name="dtype" id="dtype" value="<?php echo $item['p_type']; ?>">
 													</td>
 
 													<td colspan="1">

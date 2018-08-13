@@ -129,6 +129,7 @@ class AdminController extends CI_Controller {
 		$this->readDishes();
 	}
 	public function updateDish() {
+
 		$this->load->helper('form');
 		$this->load->helper('url');
 		$this->load->model('AdminModel');
@@ -137,7 +138,7 @@ class AdminController extends CI_Controller {
 		$cost = $this->input->post('price');
 		//echo "<script>alert('" . $cost . " is price')</script>";
 		$description = $this->input->post('description');
-		$type = $this->input->post('type');
+		$type = $this->input->post('dtype');
 		$image = $_FILES['image']['name'];
 		//echo "<script>alert('" . $image . " is type')</script>";
 		//echo "<script>alert('" . $type . " is type')</script>";
@@ -159,7 +160,7 @@ class AdminController extends CI_Controller {
 		$type = $this->input->post('type');
 		//$image = $_FILES['image']['name'];
 		//echo "<script>alert('" . $image . " is type')</script>";
-		echo "<script>alert('" . $type . " is type')</script>";
+		//		echo "<script>alert('" . $type . " is type')</script>";
 		$this->AdminModel->DeleteMainDish($type, $dishname);
 		$this->readDishes();
 	}

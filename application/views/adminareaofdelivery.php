@@ -82,7 +82,7 @@ color:white;
                 <tr>
                     <th>Area</th>
                     <th>Price</th>
-					<th> Update </th>
+					<!-- <th> Update </th> -->
 					<th> Delete </th>
                 </tr>
             </thead>
@@ -93,7 +93,7 @@ color:white;
 						<form name="UpdateAreaDelivery" id="UpdateAreaDelivery" method="POST" enctype="multipart/form-data" action=<?php echo site_url() . "/admincontroller/updatearea"; ?>>
 							<td><input type="text" name="zipcode" id ="zipcode" value="<?php echo ($item['zipcode']) ?>"></td>
 							<td><input type="text" name="price" id ="price" value="<?php echo ($item['price']) ?>"></td>
-							<td><input  type="submit" name="update" id="update" value="Update"></td>
+							<!-- <td><input  type="submit" name="update" id="update" value="Update"></td> -->
 						</form>
 						<form name="DeleteAreaDelivery" id="DeleteAreaDelivery" method="POST" enctype="multipart/form-data" action=<?php echo site_url() . "/admincontroller/deletearea"; ?>>
 							<input type="hidden" name="zipcode" id ="zipcode" value="<?php echo ($item['zipcode']) ?>">
