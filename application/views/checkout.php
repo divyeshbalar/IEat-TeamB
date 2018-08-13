@@ -93,7 +93,7 @@ include 'header1.php';
 					    <h3>Checkout</h3>
 
 					    <!-- Email -->
-					    <input type="text" id="pname" name="pname" class="form-control mb-4" placeholder="Enter your name">
+					    <input type="text" required id="pname" name="pname" class="form-control mb-4" placeholder="Enter your name">
 						<?php if ($_SESSION['type'] == 'delivery') {?>
 					    <!-- Address -->
 
@@ -126,7 +126,7 @@ include 'header1.php';
 			                <tr>
 			                     <th width="40%">Product Name</th>
 			                     <th width="5%">Quantity</th>
-								 <th width="15%">Special Instruction</th>
+								 <th width="15%">Special/Allergic Instruction</th>
 			                     <th width="10%">Price</th>
 			                     <th width="15%">Total</th>
 			                     <th width="5%">Action</th>
@@ -219,7 +219,7 @@ $total = $total + ($product['quantity'] * $product['price']);
 			        </div>
 			      </div>
 				<div style="color: black !important; margin-top:-10%;">
-					<textarea class="text-black" style="font-size: 12px" cols="50" rows="3" value="" id="delInstruction" name="delInstruction" ><?php if ($_SESSION['type'] == 'delivery') {?>Delivery <?php } else {?> Pickup <?php }?> Instruction/Allergic instruction
+					<textarea class="text-black" style="font-size: 12px" cols="50" rows="3" value="" id="delInstruction" name="delInstruction"> <?php if ($_SESSION['type'] == 'delivery') {echo 'Delivery Instruction:';} else {echo 'Pickup Instruction:';}?>
 					</textarea>
 				</div>
 			    </div>
@@ -263,10 +263,11 @@ $total = $total + ($product['quantity'] * $product['price']);
 					</div>
 				</div>
 
-				<div class="col-md-12 text-center copyright">
+								<div class="col-md-12 text-center copyright">
 					<p><small class="block">&copy; 2016 Free HTML5. All Rights Reserved.</small>
-						<small class="block">Designed by <a href="http://gettemplates.co/" target="_blank">GetTemplates.co</a> Demo Images: <a href="http://unsplash.com/" target="_blank">Unsplash</a></small></p>
+						<small class="block">Template Courtesy to <a href="http://gettemplates.co/" target="_blank">GetTemplates.co</a> Images Courtesy to: <a href="http://unsplash.com/" target="_blank">Unsplash</a></small></p>
 				</div>
+
 
 			</div>
 

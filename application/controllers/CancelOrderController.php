@@ -9,18 +9,20 @@ class CancelOrderController extends CI_Controller {
 			$oid = $this->input->get('action');
 			$date = $this->input->get('date');
 
-			$todate = date('m/d/Y h:i:s a', time());
-			echo "<pre><h1>" . $date . "</h1>      " . $todate . "</pre>";
+			$todate = date('m/d/Y', time());
+			//echo "<script>alert('<h1>" . $date . "  ==> today  =   " . $todate . "</h1> ');</script>";
 			if ($date < $todate) {
 				//echo "date is from past";substr($todate, 0, 10)
-				$_SESSION['errormsg'] = "You can not cancel order from past";
+				$_SESSION['errormsg'] = "You can not cancel order from past.";
 				session_write_close();
 				redirect(base_url() . "index.php/orderhistorycontroller");
-			} else if ($date == $todate) {
-				$_SESSION['errormsg'] = "You have to cancel the order before 24hr of delivery/pickup.";
-				session_write_close();
-				redirect(base_url() . "index.php/orderhistorycontroller");
-			} else {
+			}
+			// else if ($date  $todate) {
+			// 	$_SESSION['errormsg'] = "You have to cancel the order before 24hr of delivery/pickup.";
+			// 	session_write_close();
+			// 	redirect(base_url() . "index.php/orderhistorycontroller");
+			// }
+			else {
 				$this->load->model('cancelorder');
 				$this->cancelorder->cancelIt($oid);
 				$_SESSION['errormsg'] = "Order has been cancelled successfully.";

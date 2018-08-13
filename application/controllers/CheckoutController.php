@@ -13,7 +13,17 @@ class CheckoutController extends CI_Controller {
 
 			$this->load->model('restaurantstatus');
 			$gg = $_SESSION['ddate'];
+			$todate = date('m/d/Y', time());
+			//$totime = date('m/d/Y', time());
+			//echo "<script>alert('<h1>" . $date . "  ==> today  =   " . $todate . "</h1> ');</script>";
+			if ($_SESSION['ddate'] < $todate) {
+				//echo "date is from past";substr($todate, 0, 10)
+				$_SESSION['errormsg'] = "You can not order for past dates. Please, select the date correctly";
+				session_write_close();
+				redirect(base_url() . "index.php/menucontroller");
+			}
 			$timing = $_SESSION['dtime'];
+			///echo $_SESSION['ddate'];
 			//echo $gg;
 			$ff = substr($gg, 6, 9) . "-" . substr($gg, 0, 2) . "-" . substr($gg, 3, 4);
 			$date = $ff;

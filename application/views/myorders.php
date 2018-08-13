@@ -49,7 +49,7 @@ input:focus{
 }
 div, span{
 	/*border: 1px solid black;*/
-	padding: 5px;
+	/*padding: 5px;*/
 /*border-radius: 5px;*/
 	}
 span, label{
@@ -126,7 +126,7 @@ if ($value->status == 'W') {
 	} else {
 		echo "Contact us";
 	}?></b></span>
-									<span class="fright"><a href="<?php echo base_url() . "index.php/cancelordercontroller/?action=" . $value->oid . "&date=" . $value->date; ?>"> Cancel Order </a></span>
+									<span class="fright" <?php if ($value->status == 'W' || $value->status == 'A') {} else {echo 'hidden="true"';}?>><a href="<?php echo base_url() . "index.php/cancelordercontroller/?action=" . $value->oid . "&date=" . $value->date; ?>"> Cancel Order </a></span>
 								</div>
 								<div>
 									<span class="ototal odetail">Order Detail</span>
@@ -138,7 +138,7 @@ $j = 1;
 		if ($orderid == $valuein->oid) {
 			?>
 										<div>
-										<span><?php echo $j . " " . $valuein->dname; ?></span>&nbsp;&nbsp;<span class="fright">Price: <?php echo $valuein->price; ?></span><span class="fright">Qty: <?php echo $valuein->quantity; ?></span>
+										<span><?php echo $j . " " . $valuein->dname; ?></span>&nbsp;&nbsp;<span class="fright">Price: <?php echo $valuein->price; ?></span><span class="fright">Qty: <?php echo $valuein->quantity . " "; ?></span>
 										</div>
 									<?php }
 		$j++;}
@@ -159,10 +159,11 @@ $j = 1;
 		<div class="overlay"></div>
 		<div class="gtco-container">
 			<div class="row">
-				<div class="col-md-12 text-center copyright">
+					<div class="col-md-12 text-center copyright">
 					<p><small class="block">&copy; 2016 Free HTML5. All Rights Reserved.</small>
-						<small class="block">Designed by <a href="http://gettemplates.co/" target="_blank">GetTemplates.co</a> Demo Images: <a href="http://unsplash.com/" target="_blank">Unsplash</a></small></p>
+						<small class="block">Template Courtesy to <a href="http://gettemplates.co/" target="_blank">GetTemplates.co</a> Images Courtesy to: <a href="http://unsplash.com/" target="_blank">Unsplash</a></small></p>
 				</div>
+
 
 			</div>
 

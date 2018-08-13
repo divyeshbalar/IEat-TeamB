@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+session_write_close();
 session_start();
 
 if (isset($_SESSION['uname'])) {
@@ -14,7 +15,7 @@ if (isset($_SESSION['uname'])) {
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Pizza</title>
+	<title>Profile</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Free HTML5 Website Template by GetTemplates.co" />
 	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
@@ -79,48 +80,40 @@ include 'header1.php';
 					<div class="row top_7">
 
 						<div class="col-md-10 offset-md-1 col-lg-9 offset-lg-3 animate-box" data-animate-effect="fadeInRight" style="opacity: 0.5 !important;">
-							<label style="font-size: 50px; color: white; margin-left: 20%;" class="cursive-font">Register</label>
+							<label style="font-size: 50px; color: white; margin-left: 20%;" class="cursive-font">Update Profile</label>
 							<div class="form-wrap">
 								<div class="tab">
-											<form action="<?php echo site_url() . "/regcontroller"; ?>" method="post" class="whitebackblackcol">
-												<div class="row form-group">
-													<div class="col-md-12  col-sm-12 col-lg-10 offset-lg-1 ">
-														<label for="activities">Username</label>
-														<input required type="text" id="uname" name="uname" class="form-control" >
 
-														<br>
-														<label for="activities">E-mail</label>
-														<input required type="email"  name="email" id="email" class="form-control">
+  <table  style="width:100%;">
 
-														<br>
-														<label for="activities">First name:</label>
-														<input required type="name"  name="fname" id="fname" class="form-control">
-
-														<br>
-														<label for="activities">Last name:</label>
-														<input type="name"  name="lname" id="lname" class="form-control">
-														<br>
-														<label required for="activities">Password</label>
-														<input type="password"  name="pass" id="pass" class="form-control">
-
-														<br>
-														<label for="activities">Re-type Password</label>
-														<input required type="password"  name="rpass" id="rpass" class="form-control">
+    <style> table, th, td {
+    /*border: 1px solid black;*/
+	 padding: 10px;
+}
+    </style>
 
 
+      <tr>
+    <th>Customer Address</th>
+    <th>Cell Number</th>
+  </tr>
+     <?php foreach ($profile_data as $key => $data) {?>
+     <tr>
+         <td><?php echo $data->custaddress; ?></td>
+         <td><?php echo $data->cellno; ?></td>
+      </tr>
+     <?php }?>
+   </table>
+    <form action="<?php echo base_url() . "index.php/userprofilecontrol"; ?>">
+  Customer Address:<br>
+  <input type="text" name="custaddress" value="address">
+  <br>
+  Cell Number:<br>
+  <input type= "number" name="cellnumber" value="cell">
+  <br><br>
+  <input type="submit" value="Submit">
+</form>
 
-
-
-														<div class="d-flex justify-content-around">
-													    </div>
-										</div>
-												</div>
-												<div class="row form-group">
-													<div class="col-md-12">
-														<input name="action" type="submit" class="btn btn-primary btn-block" value="Register">
-													</div>
-												</div>
-											</form>
 										</div>
 
 
@@ -304,7 +297,7 @@ include 'header1.php';
 
 				<div class="col-md-12 text-center copyright">
 					<p><small class="block">&copy; 2016 Free HTML5. All Rights Reserved.</small>
-						<small class="block">Designed by <a href="http://gettemplates.co/" target="_blank">GetTemplates.co</a> Demo Images: <a href="http://unsplash.com/" target="_blank">Unsplash</a></small></p>
+						<small class="block">Template Courtesy to <a href="http://gettemplates.co/" target="_blank">GetTemplates.co</a> Images Courtesy to: <a href="http://unsplash.com/" target="_blank">Unsplash</a></small></p>
 				</div>
 
 			</div>

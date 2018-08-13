@@ -440,10 +440,11 @@ include 'header1.php';
 					</div>
 				</div>
 
-				<div class="col-md-12 text-center copyright">
+								<div class="col-md-12 text-center copyright">
 					<p><small class="block">&copy; 2016 Free HTML5. All Rights Reserved.</small>
-						<small class="block">Designed by <a href="http://gettemplates.co/" target="_blank">GetTemplates.co</a> Demo Images: <a href="http://unsplash.com/" target="_blank">Unsplash</a></small></p>
+						<small class="block">Template Courtesy to <a href="http://gettemplates.co/" target="_blank">GetTemplates.co</a> Images Courtesy to: <a href="http://unsplash.com/" target="_blank">Unsplash</a></small></p>
 				</div>
+
 
 			</div>
 

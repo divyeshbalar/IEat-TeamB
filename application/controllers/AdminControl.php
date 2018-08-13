@@ -20,6 +20,6 @@ class AdminControl extends CI_Controller {
 	 */
 	public function index() {
 		$this->load->helper('url');
-		$this->load->view('admin_view');
+		$this->load->view('admin_side');
 	}
 }

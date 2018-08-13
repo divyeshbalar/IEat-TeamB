@@ -294,8 +294,13 @@ input:focus{
 		<div class="gtco-container text-center">
 			<div class="display-t">
 				<div class="display-tc">
-					<h1>&ldquo; Their high quality of service makes me back over and over again!&rdquo;</h1>
-					<p>&mdash; Baapu Gathiyawala, CEO of Gandakaka na fafda.</p>
+					<h1 style="color:white" class="cursive-font">iEAT Team</h1>
+                          <p>iEat is a food ordering system which provides flexible and convinient way to order food online from anywhere within Montreal region. iEat specializes in cuisines like English, French and Italian providing range of items like Pizza, Poutine, salads and others.
+                          Happy Ordering...!!!
+                          </p>
+							<p>&mdash; Baapu Gathiyawala, CEO of IEat.</p>
+					<!-- <h1>&ldquo; Their high quality of service makes me back over and over again!&rdquo;</h1>
+					<p>&mdash; Baapu Gathiyawala, CEO of Gandakaka na fafda.</p> -->
 				</div>
 			</div>
 		</div>
@@ -307,7 +312,7 @@ input:focus{
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading animate-box">
 					<h2 class="cursive-font primary-color">Fun Facts</h2>
-					<p>theres no funfacts in food............</p>
+					<p>"We live in age when food gets to your home before police. :)"</p>
 				</div>
 			</div>
 
@@ -315,26 +320,26 @@ input:focus{
 
 				<div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
 					<div class="feature-center">
-						<span class="counter js-counter" data-from="0" data-to="5" data-speed="5000" data-refresh-interval="50">1</span>
+						<span class="counter js-counter" data-from="0" data-to="4.5" data-speed="5000" data-refresh-interval="50">1</span>
 						<span class="counter-label">Avg. Rating</span>
 
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
 					<div class="feature-center">
-						<span class="counter js-counter" data-from="0" data-to="43" data-speed="5000" data-refresh-interval="50">1</span>
+						<span class="counter js-counter" data-from="0" data-to="17" data-speed="5000" data-refresh-interval="50">1</span>
 						<span class="counter-label">Food Types</span>
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
 					<div class="feature-center">
-						<span class="counter js-counter" data-from="0" data-to="32" data-speed="5000" data-refresh-interval="50">1</span>
+						<span class="counter js-counter" data-from="0" data-to="7" data-speed="5000" data-refresh-interval="50">1</span>
 						<span class="counter-label">Chef Cook</span>
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
 					<div class="feature-center">
-						<span class="counter js-counter" data-from="0" data-to="1985" data-speed="5000" data-refresh-interval="50">1</span>
+						<span class="counter js-counter" data-from="0" data-to="2018" data-speed="5000" data-refresh-interval="50">1</span>
 						<span class="counter-label">Year Started</span>
 
 					</div>
@@ -403,10 +408,11 @@ input:focus{
 					</div>
 				</div>
 
-				<div class="col-md-12 text-center copyright">
+								<div class="col-md-12 text-center copyright">
 					<p><small class="block">&copy; 2016 Free HTML5. All Rights Reserved.</small>
-						<small class="block">Designed by <a href="http://gettemplates.co/" target="_blank">GetTemplates.co</a> Demo Images: <a href="http://unsplash.com/" target="_blank">Unsplash</a></small></p>
+						<small class="block">Template Courtesy to <a href="http://gettemplates.co/" target="_blank">GetTemplates.co</a> Images Courtesy to: <a href="http://unsplash.com/" target="_blank">Unsplash</a></small></p>
 				</div>
+
 
 			</div>
 
