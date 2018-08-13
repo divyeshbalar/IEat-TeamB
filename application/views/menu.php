@@ -161,7 +161,8 @@ include 'header1.php';
 ?>
 
 <style type="text/css">
-    input:focus{
+
+	input:focus{
         background-color: transparent;!important
     }
     input:active{
@@ -224,9 +225,6 @@ include 'header1.php';
 					<div class="gtco-container">
 
 						<div class="row" >
-							<div class="col-sm-4 col-xs-12">
-								<div id="gtco-logo"><a href="<?php echo base_url() ?>index.php">  <em style="font-size: small;"></em></a></div>
-							</div>
 							<div  class="btn-group" class="col-xs-8 text-right menu-1">
 								<ul style="list-style-type:none">
 			                  <?php foreach ($navdata as $key => $value) {?>
@@ -253,9 +251,8 @@ include 'header1.php';
 //Menu item card
 
 foreach ($ddata as $key => $value) {?>
-            <form method="post" action="<?php echo base_url() . "index.php/menucontroller/?action=add&id=" . $value->did; ?>">
-
-          <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+			<form method="post" action="<?php echo base_url() . "index.php/menucontroller/?action=add&id=" . $value->did; ?>">
+          <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
             <div class="thumbnail">
                   <img src="<?php echo base_url() . "assets/images/pizzadb/" . $value->image; ?>" class="responsive-image" alt="...">
                   <div class="caption">
@@ -418,10 +415,11 @@ if (isset($_SESSION['shopping_cart'])) {
 					</div>
 				</div>
 
-				<div class="col-md-12 text-center copyright">
+								<div class="col-md-12 text-center copyright">
 					<p><small class="block">&copy; 2016 Free HTML5. All Rights Reserved.</small>
-						<small class="block">Designed by <a href="http://gettemplates.co/" target="_blank">GetTemplates.co</a> Demo Images: <a href="http://unsplash.com/" target="_blank">Unsplash</a></small></p>
+						<small class="block">Template Courtesy to <a href="http://gettemplates.co/" target="_blank">GetTemplates.co</a> Images Courtesy to: <a href="http://unsplash.com/" target="_blank">Unsplash</a></small></p>
 				</div>
+
 
 			</div>
 

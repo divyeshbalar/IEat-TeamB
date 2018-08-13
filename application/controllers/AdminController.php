@@ -4,6 +4,91 @@ class AdminController extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 	}
+	// Order Management
+	public function readOrders() {
+		$this->load->helper('form');
+		$this->load->helper('url');
+		$this->load->model('adminmodel');
+		$orders = $this->adminmodel->readOrders();
+		if ($orders != NULL) {
+			foreach ($orders as $row) {
+				$order = array('oid' => $row->oid, 'custid' => $row->custid, 'type' => $row->type, 'cname' => $row->cname,
+					'del_address' => $row->del_address, 'apptno' => $row->apptno, 'zipcode' => $row->zipcode,
+					'city' => $row->city, 'phoneno' => $row->phoneno, 'delInstruction' => $row->delInstruction,
+					'subtotal' => $row->subtotal, 'gst' => $row->gst, 'qst' => $row->qst, 'total' => $row->total,
+					'date' => $row->date, 'time' => $row->time, 'status' => $row->status,
+				);
+				$data[] = $order;
+			}
+			$data['orders'] = $data;
+			$data_aid = array_diff_key($data, array('orders' => $data['orders']));
+			$data = array_diff_key($data, $data_aid);
+			$this->load->view('adminorders', $data);
+		} else {
+			$data['orders'] = [];
+			$this->load->view('adminorders', $data);
+		}
+	}
+	public function updateOrder() {
+		$this->load->helper('form');
+		$this->load->helper('url');
+		$this->load->model('adminmodel');
+		$oid = $this->input->post('oid');
+		$state = $this->input->post('status');
+		$this->adminmodel->updateOrder($oid, $state);
+		$this->readOrders();
+	}
+
+	public function createOrder() {
+		$this->load->helper('form');
+		$this->load->helper('url');
+		$this->load->model('adminmodel');
+		$oid = $this->input->post('custid');
+		$type = $this->input->post('type');
+		$name = $this->input->post('cname');
+		$address = $this->input->post('del_address');
+		$apptno = $this->input->post('apptno');
+		$zipcode = $this->input->post('zipcode');
+		$city = $this->input->post('city');
+		$phoneno = $this->input->post('phoneno');
+		$subtotal = $this->input->post('subtotal');
+		$date = $this->input->post('date');
+		$time = $this->input->post('time');
+		$state = $this->input->post('status');
+		echo $state . " IS status bitch";
+		$this->adminmodel->createOrder($oid, $type, $name, $address, $apptno, $zipcode, $phoneno, $subtotal, $date, $time, $state);
+		$this->readOrders();
+	}
+	public function detailOrder() {
+		$this->load->helper('form');
+		$this->load->helper('url');
+		$this->load->model('adminmodel');
+		$oid = $this->input->post('oid');
+		$orderspec = $this->adminmodel->readOrderSpec($oid);
+		if ($orderspec != NULL) {
+			foreach ($orderspec as $row) {
+				$specification = array('oid' => $row->oid, 'did' => $row->did, 'dname' => $row->dname, 'quantity' => $row->quantity,
+					'price' => $row->price, 'spe_inst' => $row->spe_inst,
+				);
+				$data[] = $specification;
+			}
+			$data['specification'] = $data;
+			$data_aid = array_diff_key($data, array('specification' => $data['specification']));
+			$data = array_diff_key($data, $data_aid);
+		} else {
+			$data['specification'] = [];
+		}
+		$this->load->view('adminorderspec', $data);
+	}
+	public function deleteOrder() {
+		$this->load->helper('form');
+		$this->load->helper('url');
+		$this->load->model('adminmodel');
+		$oid = $this->input->post('oid');
+		$this->adminmodel->deleteOrder($oid);
+		$this->readOrders();
+	}
+
 	//dishes managment
 	public function index() {
 		$this->load->helper('form');
@@ -48,14 +133,14 @@ class AdminController extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->model('AdminModel');
 		$dishname = $this->input->post('name');
-		echo "<script>alert('" . $dishname . " is dname')</script>";
+		//echo "<script>alert('" . $dishname . " is dname')</script>";
 		$cost = $this->input->post('price');
-		echo "<script>alert('" . $cost . " is price')</script>";
+		//echo "<script>alert('" . $cost . " is price')</script>";
 		$description = $this->input->post('description');
 		$type = $this->input->post('type');
 		$image = $_FILES['image']['name'];
-		echo "<script>alert('" . $image . " is type')</script>";
-		echo "<script>alert('" . $type . " is type')</script>";
+		//echo "<script>alert('" . $image . " is type')</script>";
+		//echo "<script>alert('" . $type . " is type')</script>";
 		$this->AdminModel->UpdateMainDish($type, $dishname, $cost, $description, $image);
 		$this->readDishes();
 	}
@@ -67,7 +152,7 @@ class AdminController extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->model('AdminModel');
 		$dishname = $this->input->post('name');
-		echo "<script>alert('" . $dishname . " is dname')</script>";
+		//echo "<script>alert('" . $dishname . " is dname')</script>";
 		//$cost = $this->input->post('price');
 		//echo "<script>alert('" . $cost . " is price')</script>";
 		//$description = $this->input->post('description');

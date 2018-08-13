@@ -34,6 +34,9 @@ if (isset($_SESSION['errormsg'])) {
 include 'header1.php';
 ?>
 <style type="text/css">
+h2{
+	color: white;
+}
 body{
 	color:black !important;
 }

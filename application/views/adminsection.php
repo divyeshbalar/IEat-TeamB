@@ -35,6 +35,9 @@ if (isset($_SESSION['errormsg'])) {
 include 'header1.php';
 ?>
 <style type="text/css">
+h2{
+	color: white;
+}
 body{
 	color:black !important;
 }
@@ -50,6 +53,9 @@ table{
 }
 th, tr{
 	text-align:center;
+}
+h5{
+	color:white;
 }
 </style>
 	</head>

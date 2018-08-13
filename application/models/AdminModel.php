@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 class AdminModel extends CI_model {
+
 	//Section Management
 	public function CreateSection($name, $prefix) {
 		$this->load->database();
@@ -120,14 +121,18 @@ class AdminModel extends CI_model {
 		return $result->result();
 	}
 	//Order Management
-	public function createOrder($uid, $typeorder, $custname, $deliver_address, $apto_number, $zipcode, $city, $phone_number, $instruction, $subtotal, $date, $time, $products = array()) {
+	public function createOrder($uid = 'NA', $typeorder = 'NA', $custname = '', $deliver_address = 'NA', $apto_number = 'NA', $zipcode = 'NA', $phone_number = '', $subtotal = '', $date = ' ', $time = ' ', $level = ' ', $products = array()) {
 		/*
 			Product is an array that comes with the field and value pairs. example name=>'pizza cheese'
 		*/
+
 		$this->load->database();
 		$taxes = $this->db->get('tax');
+		$taxes = $taxes->result();
 		if ($taxes != NULL) {
+			//print_r($taxes);
 			foreach ($taxes as $name => $value) {
+				echo $value->gst;
 				$gst = $value->gst;
 				$qst = $value->qst;
 			}
@@ -135,9 +140,8 @@ class AdminModel extends CI_model {
 		$valgst = ($gst * $subtotal) / 100;
 		$valqst = ($qst * $subtotal) / 100;
 		$total = $subtotal + $valgst + $valqst;
-		$orderdata = array('custid' => $uid, 'type' => $typeorder, 'cname' => $custname, 'del_address' => $deliver_address, 'apptno' => $apto_number, 'zipcode' => $zipcode, 'city' => $city,
-			'phonemo' => $phone_number, 'delInstruction' => $instruction, 'subtotal' => $subtotal, 'gst' => $valgst, 'qst' => $valqst, 'total' => $total, 'date' => $date, 'time' => $time,
-			'status' => 'w');
+		$orderdata = array('custid' => $uid, 'type' => $typeorder, 'cname' => $custname, 'del_address' => $deliver_address, 'apptno' => $apto_number, 'zipcode' => $zipcode,
+			'phoneno' => $phone_number, 'subtotal' => $subtotal, 'gst' => $valgst, 'qst' => $valqst, 'total' => $total, 'date' => $date, 'time' => $time, 'status' => $level);
 		$this->db->insert('order_dtl', $orderdata);
 		$lastorderid = $this->db->query("SELECT oid FROM order_dtl WHERE 'custid' = " . $uid . " ORDER BY oid DESC LIMIT 1");
 		if ($lastorderid != NULL) {
@@ -161,21 +165,22 @@ class AdminModel extends CI_model {
 		$result = $this->db->get_where('order_spec', array('oid' => $oid));
 		return $result->result();
 	}
-	public function updateOrder($oid, $subtotal, $state) {
-		// only updates quantity
+	public function updateOrder($oid, $state) {
+		// only updates quantity , $subtotal as parameter
 		$this->load->database();
-		$taxes = $this->db->get('tax');
-		if ($taxes != NULL) {
-			foreach ($taxes as $name => $value) {
-				$gst = $value->gst;
-				$qst = $value->qst;
-			}
-		}
-		$valgst = ($gst * $subtotal) / 100;
-		$valqst = ($qst * $subtotal) / 100;
-		$total = $subtotal + $valgst + $valqst;
+		// $taxes = $this->db->get('tax');
+		// $taxes = $taxes->result();
+		// if ($taxes != NULL) {
+		// 	foreach ($taxes as $name => $value) {
+		// 		$gst = $value->gst;
+		// 		$qst = $value->qst;
+		// 	}
+		// }
+		// $valgst = ($gst * $subtotal) / 100;
+		// $valqst = ($qst * $subtotal) / 100;
+		// $total = $subtotal + $valgst + $valqst;
 		$this->db->where('oid', $oid);
-		$this->db->update('order_dtl', array('subtotal' => $subtotal, 'gst' => $valgst, 'qst' => $valqst, 'total' => $total, 'status' => $state));
+		$this->db->update('order_dtl', array('status' => $state));
 	}
 	public function updateOrderSpec($oid, $products = array()) {
 		$this->load->database();

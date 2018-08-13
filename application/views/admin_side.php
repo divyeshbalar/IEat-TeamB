@@ -46,6 +46,9 @@ include 'header1.php';
 input:focus{
 	background-color: transparent !important;
 }
+h2{
+	color: white;
+}
 </style>
 	</head>
 	<body style="background-color: rgba(0, 0, 0, 0.8);">
@@ -63,13 +66,12 @@ input:focus{
 			<div class="row">
 				<div class="col-md-12 col-md-offset-0 text-left">
 
-
+<?php if ($flag == false) {?>
 					<div class="row row-mt-15em">
 						<div class="col-md-7 mt-text animate-box" data-animate-effect="fadeInUp">
-							<span class="intro-text-small" style="color:white">Food for all</span>
-							<h1 class="cursive-font">All in good taste!</h1>
+							<span class="intro-text-small" style="color:white">Admin Panel</span>
+							<h1 class="cursive-font">I-Eat- Food for all</h1>
 						</div>
-						<?php if ($flag == false) {?>
 						<div class="col-md-4 col-md-push-1 animate-box" data-animate-effect="fadeInRight">
 							<div class="form-wrap">
 								<div class="tab">
@@ -101,7 +103,9 @@ input:focus{
 								</div>
 							</div>
 						</div>
-					<?php } else { $flag = true;}?>
+					<?php } else {
+	$flag = true;
+	redirect(base_url() . "index.php/admincontroller/readOrders");}?>
 					</div>
 				</div>
 			</div>

@@ -35,6 +35,12 @@ if (isset($_SESSION['errormsg'])) {
 include 'header1.php';
 ?>
 <style type="text/css">
+h2{
+	color: white;
+}
+h5{
+	color:white;
+}
 body{
 	color:black !important;
 }
@@ -68,7 +74,7 @@ th, tr{
 				<div style="margin-top: 10%;">
 
 
-						<h2>Sections</h2>
+						<h2>Tax Structure</h2>
 						<div class="backwhite" style="padding: 15px;">
 
 									<table id="data" border="1">
@@ -85,7 +91,7 @@ th, tr{
 						<td>GST</td>
 							<td><input type="text" name="gst" id ="gst" value="<?php echo ($gst); ?>"></td>
 							<input type="hidden" name="type" id="type" value="gst">
-						<tr><td><input  type="submit" name="update" id="update" value="Update"></td></tr>
+						<td><input  type="submit" name="update" id="update" value="Update"></td>
 					</form>
 				</tr>
 				<tr>
@@ -93,7 +99,7 @@ th, tr{
 						<td>QST</td>
 							<td><input type="text" name="qst" id ="qst" value="<?php echo ($qst); ?>"></td>
 							<input type="hidden" name="type" id="type" value="qst">
-						<tr><td><input  type="submit" name="update" id="update" value="Update"></td></tr>
+						<td><input  type="submit" name="update" id="update" value="Update"></td>
 					</form>
 				</tr>
             </tbody>

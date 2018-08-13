@@ -10,7 +10,8 @@
 				<div class="col-xs-8 text-right menu-1">
 					<ul><?php
 if ($flag == true) {?>
-						<li><a href="<?php echo base_url() ?>index.php/admincontroller/readDishes">Menu</a></li>
+						<li><a href="<?php echo base_url() ?>index.php/admincontroller/readOrders">Orders</a></li>
+						<li><a href="<?php echo base_url() ?>index.php/admincontroller/readDishes">Update Menu</a></li>
 						<li><a href="<?php echo base_url() ?>index.php/admincontroller/readSections">Manage Section</a></li>
 							<li class="has-dropdown btn">
 							<a href="#">Configure</a>
@@ -26,7 +27,7 @@ if ($flag == true) {?>
 							</ul>
 						</li>
 							<li class="has-dropdown btn-cta">
-							<a href="services.html"><span><?php echo $_SESSION['adminuname']; ?></span></a>
+							<a href="#"><span><?php echo $_SESSION['adminuname']; ?></span></a>
 							<ul class="dropdown">
 								<li><a href="<?php echo base_url() ?>index.php/admincontroller/readEmployees">Manage users</a></li>
 								<li><a href="#">Change Password</a></li>

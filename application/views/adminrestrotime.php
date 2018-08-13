@@ -35,6 +35,9 @@ if (isset($_SESSION['errormsg'])) {
 include 'header1.php';
 ?>
 <style type="text/css">
+h2{
+	color: white;
+}
 body{
 	color:black !important;
 }
@@ -50,6 +53,9 @@ table{
 }
 th, tr{
 	text-align:center;
+}
+h5{
+	color:white;
 }
 </style>
 	</head>
@@ -68,7 +74,7 @@ th, tr{
 				<div style="margin-top: 10%;">
 
 
-						<h2>Sections</h2>
+						<h2>Weekly Schedule</h2><h5>(Please, Enter time in 24hr format) </h5>
 						<div class="backwhite" style="padding: 15px;">
 
 <table id="data" border="1">
