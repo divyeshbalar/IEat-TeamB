@@ -1,7 +1,10 @@
 # IEat-TeamB
 # https://github.com/divyeshbalar/IEat-TeamB
 
-Initial system requirements to run this system: Apache24, MySQL, PHP5(required)
+Backend Framework used: Codeignitor
+Database: Mysql
+
+Initial system requirements to run this system: LAMP stack, Apache24, MySQL, PHP5(required)
 
 For Client side: GoTO index.php
 
@@ -15,15 +18,12 @@ Code Contribution Distribution:
 Divyeshkumar Balar > Client side responsive Design
 					 Client side Functionality and constraint
 					 SMS verification and account activation
-					 
 					 Adminside GUI Design
 					 Admin and main site integration
 					 bug fix
 					 Manual Testing
+					 Customer Registration form and validations
 Ishan Kansara	>	 Customer profile update and display
-Deep Sharma     > 	 Customer Registration form and validations
-Kirtan Solanki  >    Admin side Gui
-Alejandro Bernal>    Admin side functionalities
-					 Testing
+Alejandro Bernal>    Admin side functionalities Testing
 					 
 					
